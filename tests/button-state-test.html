@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button State Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .panel-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #e9ecef;
+            color: #495057;
+        }
+        .btn:hover {
+            background: #dee2e6;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        .btn-active {
+            background: #28a745;
+            color: white;
+            transform: scale(0.95);
+            transition: all 0.2s ease;
+        }
+        .btn-active:hover {
+            background: #218838;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-sm {
+            padding: 4px 6px;
+            font-size: 10px;
+            min-width: 50px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Button State Management Test</h1>
+        <p>Click buttons to test the state management system. Each button should show active (green) state when clicked, then success state, then return to normal.</p>
+        
+        <h3>Input Panel Buttons</h3>
+        <div class="panel-buttons" id="input-panel">
+            <button type="button" id="clear-input" class="btn btn-sm">Clear</button>
+            <button type="button" id="format-input" class="btn btn-sm">Format</button>
+            <button type="button" id="compress-input" class="btn btn-sm">Compress</button>
+            <button type="button" id="escape-input" class="btn btn-sm">Escape</button>
+            <button type="button" id="unescape-input" class="btn btn-sm">Unescape</button>
+            <button type="button" id="load-example" class="btn btn-sm">Example</button>
+        </div>
+
+        <h3>Output Panel Buttons</h3>
+        <div class="panel-buttons" id="output-panel">
+            <button type="button" id="copy-output" class="btn btn-sm">Copy</button>
+            <button type="button" id="download-output" class="btn btn-sm">Download</button>
+            <button type="button" id="numbers-to-strings" class="btn btn-sm">Num→Str</button>
+            <button type="button" id="strings-to-numbers" class="btn btn-sm">Str→Num</button>
+        </div>
+
+        <h3>Event Log</h3>
+        <div id="log" class="log">Click any button to test state management...\n</div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function clearLog() {
+            log.textContent = 'Log cleared...\n';
+        }
+        
+        // Button state management function
+        function setButtonActive(button, duration = 1000) {
+            if (!button) return;
+            
+            addLog(`Setting button active: ${button.id}`);
+            
+            // Remove active state from all buttons in the same panel
+            const panel = button.closest('.panel-buttons');
+            if (panel) {
+                panel.querySelectorAll('.btn').forEach(btn => {
+                    btn.classList.remove('btn-active', 'btn-success');
+                });
+                addLog(`Cleared states from ${panel.id} panel`);
+            }
+            
+            // Add active state to clicked button
+            button.classList.add('btn-active');
+            addLog(`Added active state to ${button.id}`);
+            
+            // Remove active state after duration
+            setTimeout(() => {
+                if (button.classList.contains('btn-active')) {
+                    button.classList.remove('btn-active');
+                    button.classList.add('btn-success');
+                    addLog(`Changed ${button.id} to success state`);
+                    
+                    // Remove success state after another duration
+                    setTimeout(() => {
+                        button.classList.remove('btn-success');
+                        addLog(`Removed success state from ${button.id}`);
+                    }, duration / 2);
+                }
+            }, duration / 2);
+        }
+        
+        // Add click listeners to all buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            if (button.onclick) return; // Skip clear log button
+            
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addLog(`Button clicked: ${button.id}`);
+                setButtonActive(button);
+            });
+        });
+        
+        addLog('Button state test initialized');
+        addLog(`Found ${buttons.length - 1} test buttons`);
+    </script>
+</body>
+</html>

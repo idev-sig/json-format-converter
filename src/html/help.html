@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Format Converter - Help</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .help-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .help-section {
+            margin-bottom: 30px;
+        }
+        .help-section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .help-section h3 {
+            color: #495057;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .keyboard-shortcut {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .shortcut-key {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .format-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        .format-example pre {
+            margin: 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <a href="standalone.html" class="back-link">← Back to Converter</a>
+        
+        <header>
+            <h1>JSON Format Converter - Help</h1>
+            <p>Complete guide to using the JSON Format Converter</p>
+        </header>
+
+        <div class="help-section">
+            <h2>🚀 Quick Start</h2>
+            <ol>
+                <li>Paste your JSON, JSONC, or JSON5 data in the left panel</li>
+                <li>Select the input format from the dropdown</li>
+                <li>Choose your desired output format</li>
+                <li>The conversion happens automatically!</li>
+                <li>Copy or download the result from the right panel</li>
+            </ol>
+        </div>
+
+        <div class="help-section">
+            <h2>✨ New Features</h2>
+            <ul>
+                <li><strong>Syntax Highlighting:</strong> CodeMirror editor with JSON syntax highlighting</li>
+                <li><strong>Line Numbers:</strong> Easy navigation with line numbers</li>
+                <li><strong>Compression:</strong> Minify JSON to remove all whitespace</li>
+                <li><strong>Escape/Unescape:</strong> Handle JSON string escaping</li>
+                <li><strong>Advanced Sorting:</strong> Sort keys A-Z or Z-A with deep sorting option</li>
+                <li><strong>Data Type Conversion:</strong> Convert numbers to strings and vice versa</li>
+            </ul>
+        </div>
+
+        <div class="help-section">
+            <h2>⌨️ Keyboard Shortcuts</h2>
+            <div class="keyboard-shortcut">
+                <strong><span class="shortcut-key">Ctrl/Cmd + Enter</span></strong> - Format and beautify input
+            </div>
+            <div class="keyboard-shortcut">
+                <strong><span class="shortcut-key">Ctrl/Cmd + Shift + C</span></strong> - Copy output to clipboard
+            </div>
+            <div class="keyboard-shortcut">
+                <strong><span class="shortcut-key">Ctrl/Cmd + Shift + D</span></strong> - Download output as file
+            </div>
+            <div class="keyboard-shortcut">
+                <strong><span class="shortcut-key">Escape</span></strong> - Clear all input and output
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2>📝 Supported Formats</h2>
+            
+            <h3>JSON (JavaScript Object Notation)</h3>
+            <p>Standard JSON format with strict syntax rules. No comments, no trailing commas.</p>
+            <div class="format-example">
+                <pre>{
+  "name": "example",
+  "value": 123,
+  "array": [1, 2, 3]
+}</pre>
+            </div>
+
+            <h3>JSONC (JSON with Comments)</h3>
+            <p>JSON format that supports single-line (//) and multi-line (/* */) comments, plus trailing commas.</p>
+            <div class="format-example">
+                <pre>{
+  // This is a comment
+  "name": "example",
+  "value": 123, // trailing comma allowed
+  "array": [1, 2, 3],
+}</pre>
+            </div>
+
+            <h3>JSON5 (JSON for Humans)</h3>
+            <p>Extended JSON format with many human-friendly features:</p>
+            <ul>
+                <li>Comments (single and multi-line)</li>
+                <li>Trailing commas</li>
+                <li>Unquoted property names</li>
+                <li>Single-quoted strings</li>
+                <li>Multi-line strings</li>
+                <li>Hexadecimal numbers</li>
+                <li>Special values (Infinity, NaN)</li>
+            </ul>
+            <div class="format-example">
+                <pre>{
+  // JSON5 example
+  name: 'example', // unquoted key, single quotes
+  value: 0xFF, // hexadecimal number
+  multiline: 'This is a \
+multi-line string',
+  infinity: Infinity,
+}</pre>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h2>🔧 Button Functions</h2>
+
+            <h3>Input Panel Buttons</h3>
+            <ul>
+                <li><strong>Clear:</strong> Remove all content from input</li>
+                <li><strong>Format:</strong> Beautify and format the input JSON</li>
+                <li><strong>Compress:</strong> Minify the input JSON (remove whitespace)</li>
+                <li><strong>Escape:</strong> Escape JSON string for embedding</li>
+                <li><strong>Unescape:</strong> Remove escape characters from JSON string</li>
+                <li><strong>Example:</strong> Load sample data for current format</li>
+            </ul>
+
+            <h3>Output Panel Buttons</h3>
+            <ul>
+                <li><strong>Copy:</strong> Copy output to clipboard</li>
+                <li><strong>Download:</strong> Save output as file</li>
+                <li><strong>Num→Str:</strong> Convert all numbers to strings</li>
+                <li><strong>Str→Num:</strong> Convert numeric strings to numbers</li>
+            </ul>
+        </div>
+
+        <div class="help-section">
+            <h2>⚙️ Options</h2>
+
+            <h3>Minify</h3>
+            <p>Remove all unnecessary whitespace to create compact output.</p>
+
+            <h3>Sort Keys</h3>
+            <p>Alphabetically sort object keys for consistent output.</p>
+
+            <h3>Order (A-Z / Z-A)</h3>
+            <p>Choose ascending or descending order for key sorting.</p>
+
+            <h3>Deep Sort</h3>
+            <p>Apply sorting recursively to all nested objects.</p>
+
+            <h3>Indent Size</h3>
+            <p>Choose between 2 spaces, 4 spaces, or tab characters for indentation.</p>
+        </div>
+
+        <div class="help-section">
+            <h2>🔧 Tips & Tricks</h2>
+            <ul>
+                <li><strong>Auto-conversion:</strong> Changes are applied automatically as you type</li>
+                <li><strong>Error handling:</strong> Invalid syntax will show helpful error messages</li>
+                <li><strong>Format switching:</strong> Change input format to load appropriate examples</li>
+                <li><strong>File operations:</strong> Use the download button to save results as files</li>
+                <li><strong>Validation:</strong> The tool validates syntax and shows errors in real-time</li>
+                <li><strong>Line numbers:</strong> Click on line numbers to navigate quickly</li>
+                <li><strong>Syntax highlighting:</strong> Different colors help identify JSON structure</li>
+                <li><strong>Data conversion:</strong> Use Num→Str and Str→Num for type conversions</li>
+                <li><strong>Escape handling:</strong> Perfect for embedding JSON in code or strings</li>
+            </ul>
+        </div>
+
+        <div class="help-section">
+            <h2>🌐 Browser Support</h2>
+            <p>This tool works in all modern browsers:</p>
+            <ul>
+                <li>Chrome 60+</li>
+                <li>Firefox 55+</li>
+                <li>Safari 12+</li>
+                <li>Edge 79+</li>
+            </ul>
+        </div>
+
+        <div class="help-section">
+            <h2>📱 Mobile Support</h2>
+            <p>The converter is fully responsive and works on mobile devices. On smaller screens, the layout automatically switches to a vertical stack for better usability.</p>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef;">
+            <p>© 2025 JSON Format Converter. Built with ❤️ for developers.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Converter Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-result {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success { border-left: 4px solid #4CAF50; }
+        .error { border-left: 4px solid #f44336; }
+    </style>
+</head>
+<body>
+    <h1>JSON Format Converter Test</h1>
+    
+    <div id="test-results"></div>
+
+    <script src="lib/json5.min.js"></script>
+    <script src="js/converter.js"></script>
+    <script>
+        const converter = new JSONConverter();
+        const resultsDiv = document.getElementById('test-results');
+
+        function runTest(name, testFn) {
+            const section = document.createElement('div');
+            section.className = 'test-section';
+            
+            const title = document.createElement('h3');
+            title.textContent = name;
+            section.appendChild(title);
+
+            try {
+                const result = testFn();
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'test-result success';
+                resultDiv.textContent = `✅ PASS\n${JSON.stringify(result, null, 2)}`;
+                section.appendChild(resultDiv);
+            } catch (error) {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'test-result error';
+                resultDiv.textContent = `❌ FAIL\n${error.message}`;
+                section.appendChild(resultDiv);
+            }
+
+            resultsDiv.appendChild(section);
+        }
+
+        // Test data
+        const testJSON = '{"name": "test", "value": 123}';
+        const testJSONC = `{
+    // This is a comment
+    "name": "test",
+    "value": 123, // trailing comma
+}`;
+        const testJSON5 = `{
+    // JSON5 example
+    name: "test",
+    value: 123,
+    multiline: 'This is a \\
+    multiline string',
+}`;
+
+        // Run tests
+        runTest('JSON to JSON5 Conversion', () => {
+            const result = converter.convert(testJSON, 'json', 'json5');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('JSON5 to JSON Conversion', () => {
+            const result = converter.convert(testJSON5, 'json5', 'json');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('JSONC to JSON Conversion', () => {
+            const result = converter.convert(testJSONC, 'jsonc', 'json');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('JSON to JSONC Conversion', () => {
+            const result = converter.convert(testJSON, 'json', 'jsonc');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Format JSON with Sort Keys', () => {
+            const unsorted = '{"z": 1, "a": 2, "m": 3}';
+            const result = converter.format(unsorted, 'json', { sortKeys: true });
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Minify JSON', () => {
+            const formatted = `{
+    "name": "test",
+    "value": 123
+}`;
+            const result = converter.format(formatted, 'json', { minify: true });
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Invalid JSON Error Handling', () => {
+            const invalid = '{"name": "test", "value":}';
+            const result = converter.convert(invalid, 'json', 'json5');
+            if (result.success) throw new Error('Should have failed');
+            return { error: result.error };
+        });
+
+        runTest('Compress JSON', () => {
+            const formatted = `{
+    "name": "test",
+    "value": 123
+}`;
+            const result = converter.compress(formatted, 'json');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Escape JSON String', () => {
+            const input = '{"message": "Hello \"World\""}';
+            const result = converter.escapeJson(input);
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Unescape JSON String', () => {
+            const input = '"{\\\"message\\\": \\\"Hello \\\\\\\"World\\\\\\\"\\\"}"';
+            const result = converter.unescapeJson(input);
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Numbers to Strings Conversion', () => {
+            const input = '{"age": 25, "score": 98.5, "name": "test"}';
+            const result = converter.numbersToStrings(input, 'json');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Strings to Numbers Conversion', () => {
+            const input = '{"age": "25", "score": "98.5", "name": "test"}';
+            const result = converter.stringsToNumbers(input, 'json');
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Descending Sort Keys', () => {
+            const unsorted = '{"z": 1, "a": 2, "m": 3}';
+            const result = converter.format(unsorted, 'json', {
+                sortKeys: true,
+                sortOrder: 'desc'
+            });
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        runTest('Deep Sort with Nested Objects', () => {
+            const nested = '{"z": {"c": 1, "a": 2}, "a": {"z": 3, "b": 4}}';
+            const result = converter.format(nested, 'json', {
+                sortKeys: true,
+                sortOrder: 'asc',
+                deepSort: true
+            });
+            if (!result.success) throw new Error(result.error);
+            return result.result;
+        });
+
+        console.log('All tests completed!');
+    </script>
+</body>
+</html>

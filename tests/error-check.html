@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Check - JSON Format Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .console-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Error Check & Diagnostics</h1>
+        <p>This page checks for common JavaScript errors and validates the application state.</p>
+
+        <div class="test-section">
+            <h3>Script Loading Status</h3>
+            <div id="script-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Global Objects</h3>
+            <div id="global-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>I18n System</h3>
+            <div id="i18n-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Converter System</h3>
+            <div id="converter-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Console Output</h3>
+            <div id="console-output" class="console-output">
+                Capturing console output...
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Error Log</h3>
+            <div id="error-log"></div>
+        </div>
+    </div>
+
+    <!-- Load scripts in the same order as the main application -->
+    <script src="../lib/codemirror.min.js"></script>
+    <script src="../lib/javascript.min.js"></script>
+    <script src="../lib/json5.min.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/converter.js"></script>
+
+    <script>
+        // Capture console output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const consoleOutput = document.getElementById('console-output');
+        const errorLog = document.getElementById('error-log');
+        
+        let logs = [];
+        let errors = [];
+
+        function addToConsole(type, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logs.push(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+            updateConsoleDisplay();
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole('log', args.join(' '));
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('error', args.join(' '));
+            errors.push(args.join(' '));
+            updateErrorDisplay();
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole('warn', args.join(' '));
+        };
+
+        function updateConsoleDisplay() {
+            consoleOutput.textContent = logs.slice(-10).join('\n');
+        }
+
+        function updateErrorDisplay() {
+            if (errors.length === 0) {
+                errorLog.innerHTML = '<div class="status success">✅ No errors detected</div>';
+            } else {
+                errorLog.innerHTML = '<div class="status error">❌ Errors detected:</div>' +
+                    errors.map(err => `<pre>${err}</pre>`).join('');
+            }
+        }
+
+        // Capture unhandled errors
+        window.addEventListener('error', function(e) {
+            console.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`);
+        });
+
+        // Run diagnostics
+        function runDiagnostics() {
+            // Check script loading
+            const scriptStatus = document.getElementById('script-status');
+            let scriptChecks = [];
+
+            if (typeof CodeMirror !== 'undefined') {
+                scriptChecks.push('<div class="status success">✅ CodeMirror loaded</div>');
+            } else {
+                scriptChecks.push('<div class="status error">❌ CodeMirror not loaded</div>');
+            }
+
+            if (typeof JSON5 !== 'undefined') {
+                scriptChecks.push('<div class="status success">✅ JSON5 loaded</div>');
+            } else {
+                scriptChecks.push('<div class="status error">❌ JSON5 not loaded</div>');
+            }
+
+            scriptStatus.innerHTML = scriptChecks.join('');
+
+            // Check global objects
+            const globalStatus = document.getElementById('global-status');
+            let globalChecks = [];
+
+            if (typeof window.i18n !== 'undefined') {
+                globalChecks.push('<div class="status success">✅ window.i18n exists</div>');
+            } else {
+                globalChecks.push('<div class="status error">❌ window.i18n not found</div>');
+            }
+
+            if (typeof JSONConverter !== 'undefined') {
+                globalChecks.push('<div class="status success">✅ JSONConverter class available</div>');
+            } else {
+                globalChecks.push('<div class="status error">❌ JSONConverter class not found</div>');
+            }
+
+            globalStatus.innerHTML = globalChecks.join('');
+
+            // Check i18n system
+            const i18nStatus = document.getElementById('i18n-status');
+            let i18nChecks = [];
+
+            if (window.i18n) {
+                try {
+                    const currentLang = window.i18n.currentLanguage;
+                    i18nChecks.push(`<div class="status success">✅ Current language: ${currentLang}</div>`);
+                    
+                    const testTranslation = window.i18n.t('title');
+                    i18nChecks.push(`<div class="status success">✅ Translation test: "${testTranslation}"</div>`);
+                    
+                    if (typeof window.i18n.updateUI === 'function') {
+                        i18nChecks.push('<div class="status success">✅ updateUI method available</div>');
+                    } else {
+                        i18nChecks.push('<div class="status error">❌ updateUI method not found</div>');
+                    }
+                } catch (e) {
+                    i18nChecks.push(`<div class="status error">❌ i18n error: ${e.message}</div>`);
+                }
+            } else {
+                i18nChecks.push('<div class="status error">❌ i18n not initialized</div>');
+            }
+
+            i18nStatus.innerHTML = i18nChecks.join('');
+
+            // Check converter system
+            const converterStatus = document.getElementById('converter-status');
+            let converterChecks = [];
+
+            try {
+                const converter = new JSONConverter();
+                converterChecks.push('<div class="status success">✅ JSONConverter instantiated</div>');
+                
+                const testResult = converter.convert('{"test": true}', 'json', 'json');
+                if (testResult.success) {
+                    converterChecks.push('<div class="status success">✅ Basic conversion test passed</div>');
+                } else {
+                    converterChecks.push(`<div class="status error">❌ Conversion test failed: ${testResult.error}</div>`);
+                }
+            } catch (e) {
+                converterChecks.push(`<div class="status error">❌ Converter error: ${e.message}</div>`);
+            }
+
+            converterStatus.innerHTML = converterChecks.join('');
+
+            // Initialize error display
+            updateErrorDisplay();
+        }
+
+        // Run diagnostics when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(runDiagnostics, 100);
+        });
+    </script>
+</body>
+</html>

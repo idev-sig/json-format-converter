@@ -1,0 +1,87 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Setup Just
+      uses: extractions/setup-just@v3
+        
+    - name: Check project structure
+      run: |
+        just check-structure
+        
+    - name: Validate file syntax
+      run: |
+        # Check JSON files
+        find . -name "*.json" -not -path "./node_modules/*" -not -path "./dist/*" | xargs -I {} sh -c 'echo "Checking {}" && python -m json.tool {} > /dev/null'
+        
+        # Check JavaScript files for basic syntax
+        find src/js -name "*.js" | xargs -I {} sh -c 'echo "Checking {}" && node -c {}'
+        
+    - name: Test comment preservation
+      run: |
+        just test-comments
+        
+    - name: Run complete validation
+      run: |
+        just check-all
+        
+    - name: Check documentation
+      run: |
+        # Verify README files exist and are not empty
+        test -s README.md || (echo "README.md is missing or empty" && exit 1)
+        test -s README_zh.md || (echo "README_zh.md is missing or empty" && exit 1)
+        
+        # Check for broken internal links in README
+        grep -o '\[.*\](.*\.md)' README.md | grep -v 'http' | while read link; do
+          file=$(echo "$link" | sed 's/.*](\(.*\))/\1/')
+          test -f "$file" || (echo "Broken link: $file" && exit 1)
+        done
+        
+    - name: Verify build artifacts
+      run: |
+        just build-new
+        
+        # Check that build produces expected files
+        test -f json-format-converter-extension.zip || (echo "Extension ZIP not created" && exit 1)
+        test -f json-format-converter-standalone.zip || (echo "Standalone ZIP not created" && exit 1)
+        test -d dist/extension || (echo "Extension build directory missing" && exit 1)
+        test -d dist/standalone || (echo "Standalone build directory missing" && exit 1)
+        
+        # Check ZIP file contents
+        unzip -t json-format-converter-extension.zip > /dev/null || (echo "Extension ZIP is corrupted" && exit 1)
+        unzip -t json-format-converter-standalone.zip > /dev/null || (echo "Standalone ZIP is corrupted" && exit 1)
+        
+    - name: Check package sizes
+      run: |
+        echo "📊 Package Sizes:"
+        echo "Extension: $(du -h json-format-converter-extension.zip | cut -f1)"
+        echo "Standalone: $(du -h json-format-converter-standalone.zip | cut -f1)"
+        
+        # Warn if packages are too large (>500KB)
+        ext_size=$(stat -c%s json-format-converter-extension.zip)
+        standalone_size=$(stat -c%s json-format-converter-standalone.zip)
+        
+        if [ $ext_size -gt 512000 ]; then
+          echo "⚠️ Warning: Extension package is larger than 500KB ($ext_size bytes)"
+        fi
+        
+        if [ $standalone_size -gt 512000 ]; then
+          echo "⚠️ Warning: Standalone package is larger than 500KB ($standalone_size bytes)"
+        fi

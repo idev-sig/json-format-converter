@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #e9ecef;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h3>Input Panel Buttons</h3>
+        <button type="button" id="clear-input">Clear</button>
+        <button type="button" id="format-input">Format</button>
+        <button type="button" id="compress-input">Compress</button>
+        <button type="button" id="escape-input">Escape</button>
+        <button type="button" id="unescape-input">Unescape</button>
+        <button type="button" id="load-example">Example</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Output Panel Buttons</h3>
+        <button type="button" id="copy-output">Copy</button>
+        <button type="button" id="download-output">Download</button>
+        <button type="button" id="numbers-to-strings">Num→Str</button>
+        <button type="button" id="strings-to-numbers">Str→Num</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Click Log</h3>
+        <div id="log" class="log">Click any button to test...\n</div>
+        <button type="button" onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function clearLog() {
+            log.textContent = 'Log cleared...\n';
+        }
+        
+        // Add click listeners to all buttons
+        const buttons = [
+            'clear-input', 'format-input', 'compress-input', 'escape-input', 
+            'unescape-input', 'load-example', 'copy-output', 'download-output',
+            'numbers-to-strings', 'strings-to-numbers'
+        ];
+        
+        buttons.forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    addLog(`Button clicked: ${buttonId}`);
+                    
+                    // Check if button still exists after click
+                    setTimeout(() => {
+                        const stillExists = document.getElementById(buttonId);
+                        if (!stillExists) {
+                            addLog(`ERROR: Button ${buttonId} disappeared after click!`);
+                        } else {
+                            addLog(`Button ${buttonId} still exists - OK`);
+                        }
+                    }, 100);
+                });
+                addLog(`Button ${buttonId} found and listener attached`);
+            } else {
+                addLog(`ERROR: Button ${buttonId} not found!`);
+            }
+        });
+        
+        addLog('Button test initialized');
+    </script>
+</body>
+</html>

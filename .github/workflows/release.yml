@@ -1,0 +1,124 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Setup Just
+      uses: extractions/setup-just@v3
+
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Build project
+      run: |
+        just build-new
+
+    - name: Run tests
+      run: |
+        just test-comments
+
+    - name: Validate project
+      run: |
+        just check-all
+        
+    - name: Generate changelog
+      id: changelog
+      run: |
+        echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+        echo "## 🚀 JSON Format Converter v${{ steps.get_version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "A powerful Chrome extension and standalone web application for converting between JSON, JSONC, and JSON5 formats with advanced editing features and comment preservation." >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### ✨ Features" >> $GITHUB_OUTPUT
+        echo "- 🔄 **Smart Format Conversion**: JSON ↔ JSONC ↔ JSON5 with comment preservation" >> $GITHUB_OUTPUT
+        echo "- 🎨 **Advanced Editor**: CodeMirror with syntax highlighting and line numbers" >> $GITHUB_OUTPUT
+        echo "- 🌍 **Multi-language Support**: English and Chinese interfaces" >> $GITHUB_OUTPUT
+        echo "- � **Comment Preservation**: Maintains comments during JSONC ↔ JSON5 conversion" >> $GITHUB_OUTPUT
+        echo "- 🛠️ **Processing Tools**: Format, compress, escape, and data type conversion" >> $GITHUB_OUTPUT
+        echo "- ⌨️ **Keyboard Shortcuts**: Productivity-focused hotkeys" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### 📦 Installation" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "#### Chrome Extension" >> $GITHUB_OUTPUT
+        echo "1. Download \`json-format-converter-extension-v${{ steps.get_version.outputs.VERSION }}.zip\`" >> $GITHUB_OUTPUT
+        echo "2. Extract the ZIP file" >> $GITHUB_OUTPUT
+        echo "3. Open Chrome and navigate to \`chrome://extensions/\`" >> $GITHUB_OUTPUT
+        echo "4. Enable \"Developer mode\" in the top right" >> $GITHUB_OUTPUT
+        echo "5. Click \"Load unpacked\" and select the extracted folder" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "#### Standalone Web App" >> $GITHUB_OUTPUT
+        echo "1. Download \`json-format-converter-standalone-v${{ steps.get_version.outputs.VERSION }}.zip\`" >> $GITHUB_OUTPUT
+        echo "2. Extract to your web server or open \`index.html\` locally" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### 🔧 Technical Information" >> $GITHUB_OUTPUT
+        echo "- Python: 3.x" >> $GITHUB_OUTPUT
+        echo "- Manifest Version: 3" >> $GITHUB_OUTPUT
+        echo "- Build Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+        echo "- License: Apache 2.0" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### 📚 Documentation" >> $GITHUB_OUTPUT
+        echo "- [English README](README.md)" >> $GITHUB_OUTPUT
+        echo "- [中文说明](README_zh.md)" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.VERSION }}
+        release_name: JSON Format Converter v${{ steps.get_version.outputs.VERSION }}
+        body: ${{ steps.changelog.outputs.CHANGELOG }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Extension ZIP to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./json-format-converter-extension.zip
+        asset_name: json-format-converter-extension-v${{ steps.get_version.outputs.VERSION }}.zip
+        asset_content_type: application/zip
+
+    - name: Upload Standalone ZIP to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./json-format-converter-standalone.zip
+        asset_name: json-format-converter-standalone-v${{ steps.get_version.outputs.VERSION }}.zip
+        asset_content_type: application/zip
+
+    # Optional: Publish to Chrome Web Store (requires setup of secrets)
+    # Uncomment and configure the following steps if you want to auto-publish to Chrome Web Store
+    # - name: Publish to Chrome Web Store
+    #   uses: puzzlers-labs/chrome-webstore-publish@v1
+    #   with:
+    #     mode: publish
+    #     extension_id: ${{ vars.CHROME_EXTENSION_ID }}
+    #     zip_file_path: ./json-format-converter-extension.zip
+    #     client_id: ${{ secrets.GOOGLE_CLIENT_ID }}
+    #     client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+    #     refresh_token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+    #     publish_target: public
+    #     expedited_review: true

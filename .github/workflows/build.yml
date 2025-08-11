@@ -1,0 +1,73 @@
+name: Build JSON Format Converter
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Setup Just
+      uses: extractions/setup-just@v3
+
+    - name: Build project
+      run: |
+        just build-new
+
+    - name: Run tests
+      run: |
+        just test-comments
+
+    - name: Validate project
+      run: |
+        just check-all
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: json-format-converter-${{ github.sha }}
+        path: |
+          *.zip
+          dist/
+        retention-days: 30
+
+    - name: Get version for release
+      if: github.event_name == 'release'
+      id: get_version
+      run: echo "version=$(grep '"version"' package.json | head -1 | cut -d'"' -f4)" >> $GITHUB_OUTPUT
+
+    - name: Upload Extension ZIP to Release
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./json-format-converter-extension.zip
+        asset_name: json-format-converter-extension-v${{ steps.get_version.outputs.version }}.zip
+        asset_content_type: application/zip
+
+    - name: Upload Standalone ZIP to Release
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./json-format-converter-standalone.zip
+        asset_name: json-format-converter-standalone-v${{ steps.get_version.outputs.version }}.zip
+        asset_content_type: application/zip

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Key Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-container {
+            width: 80vw;
+            min-width: 1200px;
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .position-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="position-indicator" id="position">
+        Container Position: <span id="pos-info">Loading...</span>
+    </div>
+
+    <div class="test-container" id="container">
+        <h1>Escape Key Layout Test</h1>
+        <p>This test checks if pressing Escape causes layout shifts.</p>
+        
+        <div class="test-section">
+            <h3>Test Instructions</h3>
+            <ol>
+                <li>Watch the position indicator in the top-right corner</li>
+                <li>Press the Escape key multiple times</li>
+                <li>Check if the container position changes</li>
+                <li>Try typing in the inputs below and then press Escape</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>Input Fields</h3>
+            <input type="text" placeholder="Type something and press Escape" id="test-input">
+            <textarea placeholder="Type something and press Escape" id="test-textarea" rows="4"></textarea>
+        </div>
+
+        <div class="test-section">
+            <h3>Event Log</h3>
+            <div id="log" class="log">Press Escape to test...\n</div>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        const container = document.getElementById('container');
+        const posInfo = document.getElementById('pos-info');
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function clearLog() {
+            log.textContent = 'Log cleared...\n';
+        }
+        
+        function updatePosition() {
+            const rect = container.getBoundingClientRect();
+            posInfo.textContent = `Left: ${Math.round(rect.left)}px, Width: ${Math.round(rect.width)}px`;
+        }
+        
+        // Update position every 100ms
+        setInterval(updatePosition, 100);
+        
+        // Track Escape key presses
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const rect = container.getBoundingClientRect();
+                addLog(`Escape pressed - Container position: Left=${Math.round(rect.left)}px, Width=${Math.round(rect.width)}px`);
+                
+                // Clear inputs like the main app does
+                document.getElementById('test-input').value = '';
+                document.getElementById('test-textarea').value = '';
+                
+                // Check position after a small delay
+                setTimeout(() => {
+                    const newRect = container.getBoundingClientRect();
+                    if (Math.abs(newRect.left - rect.left) > 1) {
+                        addLog(`WARNING: Container moved! Old: ${Math.round(rect.left)}px, New: ${Math.round(newRect.left)}px`);
+                    } else {
+                        addLog('Container position stable - OK');
+                    }
+                }, 50);
+            } else {
+                addLog(`Key pressed: ${e.key}`);
+            }
+        });
+        
+        addLog('Escape key test initialized');
+        updatePosition();
+    </script>
+</body>
+</html>

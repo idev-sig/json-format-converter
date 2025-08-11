@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Preservation Test - JSON Format Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .test-input, .test-output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .test-input h4, .test-output h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .controls {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #667eea;
+            color: white;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Comment Preservation Test</h1>
+        <p>This page tests whether comments are preserved when converting between JSONC and JSON5 formats.</p>
+
+        <div class="test-section">
+            <h3>Test 1: JSONC → JSON5 Conversion</h3>
+            <div class="test-grid">
+                <div class="test-input">
+                    <h4>Input (JSONC)</h4>
+                    <div class="code-block" id="jsonc-input">{
+    // This is a single-line comment
+    "name": "JSON Format Converter",
+    "version": "1.0.0",
+    
+    /* 
+     * This is a multi-line comment
+     * describing the features array
+     */
+    "features": [
+        "JSON ↔ JSONC ↔ JSON5 conversion", // Feature 1
+        "Real-time formatting and validation", // Feature 2
+        "Copy and download functionality", // Feature 3
+    ],
+    
+    // Configuration section
+    "config": {
+        "indentSize": 4, // Number of spaces
+        "allowComments": true, // Enable comments
+    },
+}</div>
+                </div>
+                <div class="test-output">
+                    <h4>Output (JSON5)</h4>
+                    <div class="code-block" id="json5-output">Click "Convert JSONC → JSON5" to see result</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="testJSONCToJSON5()">Convert JSONC → JSON5</button>
+                <button class="btn btn-secondary" onclick="resetTest1()">Reset</button>
+            </div>
+            <div id="test1-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 2: JSON5 → JSONC Conversion</h3>
+            <div class="test-grid">
+                <div class="test-input">
+                    <h4>Input (JSON5)</h4>
+                    <div class="code-block" id="json5-input">{
+    // JSON5 example with unquoted keys
+    name: "JSON Format Converter",
+    version: "1.0.0",
+    
+    /* 
+     * Features array with trailing comma
+     */
+    features: [
+        "JSON ↔ JSONC ↔ JSON5 conversion", // Feature 1
+        "Real-time formatting and validation", // Feature 2
+        "Copy and download functionality", // Trailing comma allowed
+    ],
+    
+    // Configuration with unquoted keys
+    config: {
+        indentSize: 4, // Unquoted key
+        allowComments: true, // Another unquoted key
+        hexNumber: 0xFF, // Hexadecimal number
+    },
+}</div>
+                </div>
+                <div class="test-output">
+                    <h4>Output (JSONC)</h4>
+                    <div class="code-block" id="jsonc-output">Click "Convert JSON5 → JSONC" to see result</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="testJSON5ToJSONC()">Convert JSON5 → JSONC</button>
+                <button class="btn btn-secondary" onclick="resetTest2()">Reset</button>
+            </div>
+            <div id="test2-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 3: Same Format Conversions</h3>
+            <div class="test-grid">
+                <div class="test-input">
+                    <h4>JSONC → JSONC (should preserve comments)</h4>
+                    <div class="controls">
+                        <button class="btn" onclick="testSameFormat('jsonc')">Test JSONC → JSONC</button>
+                    </div>
+                    <div class="code-block" id="jsonc-same-output">Click button to test</div>
+                </div>
+                <div class="test-output">
+                    <h4>JSON5 → JSON5 (should preserve comments)</h4>
+                    <div class="controls">
+                        <button class="btn" onclick="testSameFormat('json5')">Test JSON5 → JSON5</button>
+                    </div>
+                    <div class="code-block" id="json5-same-output">Click button to test</div>
+                </div>
+            </div>
+            <div id="same-format-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 4: JSON → JSONC (should not add comments)</h3>
+            <div class="test-grid">
+                <div class="test-input">
+                    <h4>Input (JSON)</h4>
+                    <div class="code-block" id="json-input">{
+  "name": "JSON Format Converter",
+  "version": "1.0.0",
+  "features": [
+    "JSON conversion",
+    "Real-time formatting"
+  ],
+  "config": {
+    "indentSize": 4,
+    "allowComments": false
+  }
+}</div>
+                </div>
+                <div class="test-output">
+                    <h4>Output (JSONC)</h4>
+                    <div class="code-block" id="json-to-jsonc-output">Click "Convert JSON → JSONC" to see result</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="testJSONToJSONC()">Convert JSON → JSONC</button>
+                <button class="btn btn-secondary" onclick="resetTest4()">Reset</button>
+            </div>
+            <div id="test4-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 5: Comment Analysis</h3>
+            <div id="comment-analysis">
+                <p>Run the tests above to see comment preservation analysis.</p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 4: Custom Input</h3>
+            <div class="test-grid">
+                <div class="test-input">
+                    <h4>Your Input</h4>
+                    <textarea id="custom-input" rows="10" style="width: 100%; font-family: monospace; font-size: 12px;" placeholder="Paste your JSONC or JSON5 here..."></textarea>
+                    <div class="controls">
+                        <select id="input-format">
+                            <option value="jsonc">JSONC</option>
+                            <option value="json5">JSON5</option>
+                        </select>
+                        <span>→</span>
+                        <select id="output-format">
+                            <option value="json5">JSON5</option>
+                            <option value="jsonc">JSONC</option>
+                        </select>
+                        <button class="btn" onclick="testCustomInput()">Convert</button>
+                    </div>
+                </div>
+                <div class="test-output">
+                    <h4>Custom Output</h4>
+                    <div class="code-block" id="custom-output">Enter input and click Convert</div>
+                </div>
+            </div>
+            <div id="custom-status"></div>
+        </div>
+    </div>
+
+    <!-- Load required scripts -->
+    <script src="../lib/json5.min.js"></script>
+    <script src="../js/converter.js"></script>
+
+    <script>
+        const converter = new JSONConverter();
+
+        function testJSONCToJSON5() {
+            const input = document.getElementById('jsonc-input').textContent;
+            const result = converter.convert(input, 'jsonc', 'json5');
+            
+            const outputElement = document.getElementById('json5-output');
+            const statusElement = document.getElementById('test1-status');
+            
+            if (result.success) {
+                outputElement.textContent = result.result;
+                statusElement.innerHTML = '<div class="status success">✅ Conversion successful!</div>';
+                analyzeComments(input, result.result, 'jsonc', 'json5');
+            } else {
+                outputElement.textContent = `Error: ${result.error}`;
+                statusElement.innerHTML = `<div class="status error">❌ Conversion failed: ${result.error}</div>`;
+            }
+        }
+
+        function testJSON5ToJSONC() {
+            const input = document.getElementById('json5-input').textContent;
+            const result = converter.convert(input, 'json5', 'jsonc');
+            
+            const outputElement = document.getElementById('jsonc-output');
+            const statusElement = document.getElementById('test2-status');
+            
+            if (result.success) {
+                outputElement.textContent = result.result;
+                statusElement.innerHTML = '<div class="status success">✅ Conversion successful!</div>';
+                analyzeComments(input, result.result, 'json5', 'jsonc');
+            } else {
+                outputElement.textContent = `Error: ${result.error}`;
+                statusElement.innerHTML = `<div class="status error">❌ Conversion failed: ${result.error}</div>`;
+            }
+        }
+
+        function testCustomInput() {
+            const input = document.getElementById('custom-input').value;
+            const inputFormat = document.getElementById('input-format').value;
+            const outputFormat = document.getElementById('output-format').value;
+            
+            if (!input.trim()) {
+                document.getElementById('custom-status').innerHTML = '<div class="status warning">⚠️ Please enter some input</div>';
+                return;
+            }
+            
+            const result = converter.convert(input, inputFormat, outputFormat);
+            
+            const outputElement = document.getElementById('custom-output');
+            const statusElement = document.getElementById('custom-status');
+            
+            if (result.success) {
+                outputElement.textContent = result.result;
+                statusElement.innerHTML = '<div class="status success">✅ Conversion successful!</div>';
+                analyzeComments(input, result.result, inputFormat, outputFormat);
+            } else {
+                outputElement.textContent = `Error: ${result.error}`;
+                statusElement.innerHTML = `<div class="status error">❌ Conversion failed: ${result.error}</div>`;
+            }
+        }
+
+        function analyzeComments(input, output, inputFormat, outputFormat) {
+            const inputComments = extractComments(input);
+            const outputComments = extractComments(output);
+            
+            const analysisElement = document.getElementById('comment-analysis');
+            
+            let analysis = `<h4>Comment Analysis: ${inputFormat.toUpperCase()} → ${outputFormat.toUpperCase()}</h4>`;
+            analysis += `<p><strong>Input comments found:</strong> ${inputComments.length}</p>`;
+            analysis += `<p><strong>Output comments preserved:</strong> ${outputComments.length}</p>`;
+            
+            if (inputComments.length === outputComments.length) {
+                analysis += '<div class="status success">✅ All comments preserved!</div>';
+            } else if (outputComments.length > 0) {
+                analysis += '<div class="status warning">⚠️ Some comments preserved</div>';
+            } else {
+                analysis += '<div class="status error">❌ No comments preserved</div>';
+            }
+            
+            if (inputComments.length > 0) {
+                analysis += '<h5>Comments found:</h5><ul>';
+                inputComments.forEach((comment, index) => {
+                    const preserved = outputComments.includes(comment);
+                    analysis += `<li>${preserved ? '✅' : '❌'} ${comment}</li>`;
+                });
+                analysis += '</ul>';
+            }
+            
+            analysisElement.innerHTML = analysis;
+        }
+
+        function extractComments(text) {
+            const comments = [];
+            
+            // Single-line comments
+            const singleLineMatches = text.match(/\/\/.*$/gm);
+            if (singleLineMatches) {
+                comments.push(...singleLineMatches.map(c => c.trim()));
+            }
+            
+            // Multi-line comments
+            const multiLineMatches = text.match(/\/\*[\s\S]*?\*\//g);
+            if (multiLineMatches) {
+                comments.push(...multiLineMatches.map(c => c.trim()));
+            }
+            
+            return comments;
+        }
+
+        function resetTest1() {
+            document.getElementById('json5-output').textContent = 'Click "Convert JSONC → JSON5" to see result';
+            document.getElementById('test1-status').innerHTML = '';
+        }
+
+        function resetTest2() {
+            document.getElementById('jsonc-output').textContent = 'Click "Convert JSON5 → JSONC" to see result';
+            document.getElementById('test2-status').innerHTML = '';
+        }
+
+        function testSameFormat(format) {
+            const input = format === 'jsonc' ?
+                document.getElementById('jsonc-input').textContent :
+                document.getElementById('json5-input').textContent;
+
+            const result = converter.convert(input, format, format);
+            const outputElementId = format === 'jsonc' ? 'jsonc-same-output' : 'json5-same-output';
+            const outputElement = document.getElementById(outputElementId);
+            const statusElement = document.getElementById('same-format-status');
+
+            if (result.success) {
+                outputElement.textContent = result.result;
+
+                const inputComments = extractComments(input);
+                const outputComments = extractComments(result.result);
+
+                if (inputComments.length === outputComments.length) {
+                    statusElement.innerHTML = `<div class="status success">✅ ${format.toUpperCase()} → ${format.toUpperCase()}: All ${inputComments.length} comments preserved!</div>`;
+                } else {
+                    statusElement.innerHTML = `<div class="status error">❌ ${format.toUpperCase()} → ${format.toUpperCase()}: Only ${outputComments.length}/${inputComments.length} comments preserved</div>`;
+                }
+
+                analyzeComments(input, result.result, format, format);
+            } else {
+                outputElement.textContent = `Error: ${result.error}`;
+                statusElement.innerHTML = `<div class="status error">❌ ${format.toUpperCase()} → ${format.toUpperCase()} conversion failed: ${result.error}</div>`;
+            }
+        }
+
+        function testJSONToJSONC() {
+            const input = document.getElementById('json-input').textContent;
+            const result = converter.convert(input, 'json', 'jsonc');
+
+            const outputElement = document.getElementById('json-to-jsonc-output');
+            const statusElement = document.getElementById('test4-status');
+
+            if (result.success) {
+                outputElement.textContent = result.result;
+
+                const inputComments = extractComments(input);
+                const outputComments = extractComments(result.result);
+
+                if (inputComments.length === 0 && outputComments.length === 0) {
+                    statusElement.innerHTML = '<div class="status success">✅ No extra comments added to JSON → JSONC conversion</div>';
+                } else if (outputComments.length > inputComments.length) {
+                    statusElement.innerHTML = `<div class="status error">❌ Extra comments were added: ${outputComments.join(', ')}</div>`;
+                } else {
+                    statusElement.innerHTML = '<div class="status success">✅ Comments handled correctly</div>';
+                }
+
+                analyzeComments(input, result.result, 'json', 'jsonc');
+            } else {
+                outputElement.textContent = `Error: ${result.error}`;
+                statusElement.innerHTML = `<div class="status error">❌ JSON → JSONC conversion failed: ${result.error}</div>`;
+            }
+        }
+
+        function resetTest4() {
+            document.getElementById('json-to-jsonc-output').textContent = 'Click "Convert JSON → JSONC" to see result';
+            document.getElementById('test4-status').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

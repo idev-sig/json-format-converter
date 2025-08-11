@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Format Converter - Standalone</title>
+    <link rel="stylesheet" href="../lib/codemirror.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            width: 80vw;
+            min-width: 1200px;
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 0;
+            overflow: hidden;
+        }
+        .editor-section {
+            height: 600px;
+        }
+        .input-panel, .output-panel {
+            height: 600px;
+        }
+        .standalone-link {
+            display: none;
+        }
+        @media (max-width: 1400px) {
+            .container {
+                width: 90vw;
+                min-width: 1000px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                width: 95vw;
+                min-width: 800px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                width: 98vw;
+                min-width: auto;
+            }
+            .input-panel, .output-panel {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="title-section">
+                    <h1 data-i18n="title">JSON Format Converter</h1>
+                    <p data-i18n="subtitle">Convert between JSON, JSONC, and JSON5 formats</p>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="help.html" target="_blank" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 14px;" data-i18n="helpLink">📖 Help & Shortcuts</a>
+                    </div>
+                </div>
+                <div class="language-section">
+                    <label for="language-select" data-i18n="language" style="color: rgba(255,255,255,0.9);">Language</label>
+                    <select id="language-select" style="margin-left: 10px;">
+                        <option value="en" data-i18n="english">English</option>
+                        <option value="zh" data-i18n="chinese">中文</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls-section">
+            <div class="format-controls">
+                <div class="format-selector">
+                    <label for="input-format" data-i18n="inputFormat">Input Format:</label>
+                    <select id="input-format">
+                        <option value="json">JSON</option>
+                        <option value="jsonc">JSONC</option>
+                        <option value="json5">JSON5</option>
+                    </select>
+                </div>
+
+                <div class="convert-arrow">→</div>
+
+                <div class="format-selector">
+                    <label for="output-format" data-i18n="outputFormat">Output Format:</label>
+                    <select id="output-format">
+                        <option value="json">JSON</option>
+                        <option value="jsonc">JSONC</option>
+                        <option value="json5">JSON5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="options-controls">
+                <div class="option">
+                    <input type="checkbox" id="minify-output">
+                    <label for="minify-output" data-i18n="minify">Minify</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="sort-keys">
+                    <label for="sort-keys" data-i18n="sortKeys">Sort Keys</label>
+                </div>
+                <div class="option">
+                    <label for="sort-order" data-i18n="order">Order:</label>
+                    <select id="sort-order">
+                        <option value="asc" data-i18n="orderAsc">A-Z</option>
+                        <option value="desc" data-i18n="orderDesc">Z-A</option>
+                    </select>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="deep-sort">
+                    <label for="deep-sort" data-i18n="deepSort">Deep Sort</label>
+                </div>
+                <div class="option">
+                    <label for="indent-size" data-i18n="indent">Indent:</label>
+                    <select id="indent-size">
+                        <option value="2" data-i18n="indent2">2</option>
+                        <option value="4" selected data-i18n="indent4">4</option>
+                        <option value="tab" data-i18n="indentTab">Tab</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-section">
+            <div class="input-panel">
+                <div class="panel-header">
+                    <h3 data-i18n="input">Input</h3>
+                    <div class="panel-buttons">
+                        <button type="button" id="clear-input" class="btn btn-sm" data-i18n="clear">Clear</button>
+                        <button type="button" id="format-input" class="btn btn-sm" data-i18n="format">Format</button>
+                        <button type="button" id="compress-input" class="btn btn-sm" data-i18n="compress">Compress</button>
+                        <button type="button" id="escape-input" class="btn btn-sm" data-i18n="escape">Escape</button>
+                        <button type="button" id="unescape-input" class="btn btn-sm" data-i18n="unescape">Unescape</button>
+                        <button type="button" id="load-example" class="btn btn-sm" data-i18n="example">Example</button>
+                    </div>
+                </div>
+                <div id="input-editor"></div>
+            </div>
+
+            <div class="output-panel">
+                <div class="panel-header">
+                    <h3 data-i18n="output">Output</h3>
+                    <div class="panel-buttons">
+                        <button type="button" id="copy-output" class="btn btn-sm" data-i18n="copy">Copy</button>
+                        <button type="button" id="download-output" class="btn btn-sm" data-i18n="download">Download</button>
+                        <button type="button" id="numbers-to-strings" class="btn btn-sm" data-i18n="numToStr">Num→Str</button>
+                        <button type="button" id="strings-to-numbers" class="btn btn-sm" data-i18n="strToNum">Str→Num</button>
+                    </div>
+                </div>
+                <div id="output-editor"></div>
+            </div>
+        </div>
+
+        <div class="error-section" id="error-section" style="display: none;">
+            <div class="error-message" id="error-message"></div>
+        </div>
+
+        <footer>
+            <p data-i18n="footerText">© 2025 JSON Format Converter. Built with ❤️ for developers.</p>
+        </footer>
+    </div>
+
+    <script src="../lib/codemirror.min.js"></script>
+    <script src="../lib/javascript.min.js"></script>
+    <script src="../lib/json5.min.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/converter.js"></script>
+    <script src="../js/popup.js"></script>
+</body>
+</html>

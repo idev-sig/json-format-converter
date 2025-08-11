@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I18n Test - JSON Format Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+        }
+        .language-switcher button {
+            margin: 0 10px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .language-switcher button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .language-switcher button.active {
+            background: rgba(255,255,255,0.3);
+            font-weight: bold;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .translation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .translation-key {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .translation-value {
+            font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+        }
+        .sample-data {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="language-switcher">
+            <h2 data-i18n="title">JSON Format Converter</h2>
+            <p>Multi-language Test Page</p>
+            <button onclick="switchLanguage('en')" id="btn-en" class="active">English</button>
+            <button onclick="switchLanguage('zh')" id="btn-zh">中文</button>
+        </div>
+
+        <div class="test-section">
+            <h3>UI Translations</h3>
+            <div class="translation-item">
+                <span class="translation-key">title</span>
+                <span class="translation-value" data-i18n="title">JSON Format Converter</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">subtitle</span>
+                <span class="translation-value" data-i18n="subtitle">Convert between JSON, JSONC, and JSON5 formats</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">inputFormat</span>
+                <span class="translation-value" data-i18n="inputFormat">Input Format:</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">outputFormat</span>
+                <span class="translation-value" data-i18n="outputFormat">Output Format:</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">clear</span>
+                <span class="translation-value" data-i18n="clear">Clear</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">format</span>
+                <span class="translation-value" data-i18n="format">Format</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">compress</span>
+                <span class="translation-value" data-i18n="compress">Compress</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">copy</span>
+                <span class="translation-value" data-i18n="copy">Copy</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">download</span>
+                <span class="translation-value" data-i18n="download">Download</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Messages</h3>
+            <div class="translation-item">
+                <span class="translation-key">inputEmpty</span>
+                <span class="translation-value" data-i18n="inputEmpty">Input is empty</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">copied</span>
+                <span class="translation-value" data-i18n="copied">Copied to clipboard!</span>
+            </div>
+            <div class="translation-item">
+                <span class="translation-key">downloaded</span>
+                <span class="translation-value" data-i18n="downloaded">File downloaded!</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Sample Data Preview</h3>
+            <p>JSON5 Format:</p>
+            <div class="sample-data" id="sample-preview"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Language Detection</h3>
+            <p><strong>Browser Language:</strong> <span id="browser-lang"></span></p>
+            <p><strong>Detected Language:</strong> <span id="detected-lang"></span></p>
+            <p><strong>Current Language:</strong> <span id="current-lang"></span></p>
+            <p><strong>Saved Language:</strong> <span id="saved-lang"></span></p>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script>
+        function switchLanguage(lang) {
+            window.i18n.setLanguage(lang);
+            updateUI();
+        }
+        
+        function updateUI() {
+            // Update active button
+            document.querySelectorAll('.language-switcher button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${window.i18n.currentLanguage}`).classList.add('active');
+            
+            // Update sample data
+            const samples = window.i18n.getSampleData();
+            document.getElementById('sample-preview').textContent = samples.json5.substring(0, 500) + '...';
+            
+            // Update language info
+            document.getElementById('browser-lang').textContent = navigator.language || navigator.userLanguage;
+            document.getElementById('detected-lang').textContent = window.i18n.detectLanguage();
+            document.getElementById('current-lang').textContent = window.i18n.currentLanguage;
+            document.getElementById('saved-lang').textContent = localStorage.getItem('json-converter-language') || 'none';
+        }
+        
+        // Initialize
+        window.i18n.updateUI();
+        updateUI();
+    </script>
+</body>
+</html>

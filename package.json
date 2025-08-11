@@ -1,0 +1,47 @@
+{
+  "name": "json-format-converter",
+  "version": "0.1.0",
+  "description": "A powerful Chrome extension and standalone web app for converting between JSON, JSONC, and JSON5 formats with advanced editing features and comment preservation",
+  "main": "src/js/converter.js",
+  "scripts": {
+    "test": "just test-comments",
+    "dev": "just dev",
+    "build": "just build-new",
+    "serve": "just serve",
+    "clean": "just clean",
+    "validate": "just check-all",
+    "build:icons": "cd src/icons && convert icon.svg -resize 16x16 icon16.png && convert icon.svg -resize 32x32 icon32.png && convert icon.svg -resize 48x48 icon48.png && convert icon.svg -resize 128x128 icon128.png"
+  },
+  "keywords": [
+    "json",
+    "jsonc",
+    "json5",
+    "converter",
+    "formatter",
+    "chrome-extension",
+    "web-app"
+  ],
+  "author": "Jetsung Chan <i@jetsung.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/idev-sig/json-format-converter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idev-sig/json-format-converter/issues"
+  },
+  "homepage": "https://github.com/idev-sig/json-format-converter#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "files": [
+    "manifest.json",
+    "popup.html",
+    "standalone.html",
+    "styles.css",
+    "converter.js",
+    "popup.js",
+    "lib/",
+    "icons/",
+    "README.md"
+  ]
+}
