@@ -2,11 +2,29 @@
 
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/idev-sig/json-format-converter)
 [![License](https://img.shields.io/badge/license-Apache_2.0-green.svg)](LICENSE)
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-orange.svg)](https://chrome.google.com/webstore)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-orange.svg)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
 
 **[English](README.md) | [中文](README_zh.md)**
 
 A powerful Chrome extension and standalone web application for converting between JSON, JSONC (JSON with Comments), and JSON5 formats with advanced editing features and comment preservation.
+
+## 🚀 Quick Start
+
+### Chrome Extension
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+**Install from Chrome Web Store**: [JSON Format Converter](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+1. Click the link above or visit the Chrome Web Store
+2. Click "Add to Chrome"
+3. Click the extension icon in your toolbar to start converting
+
+### Online Web App
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Try%20Now-green?logo=github)](https://idev-sig.github.io/json-format-converter/)
+
+**Try Online**: [https://idev-sig.github.io/json-format-converter/](https://idev-sig.github.io/json-format-converter/)
+
+No installation required - use directly in your browser!
 
 ## Features
 
@@ -55,11 +73,12 @@ A powerful Chrome extension and standalone web application for converting betwee
 - Comprehensive help documentation
 
 ### 🌍 **Multi-language Support**
-- **English (Default)** and **Chinese (中文)** interface
+- **English (Default)**, **Chinese (中文)**, **Japanese (日本語)**, **Korean (한국어)**, **German (Deutsch)**, **French (Français)**, **Spanish (Español)**, **Russian (Русский)**, **Arabic (العربية)**, **Portuguese (Português)** interface
 - **Automatic Language Detection**: Detects browser language preference
 - **Persistent Settings**: Language choice saved in localStorage
 - **Localized Content**: Sample data, help text, and error messages
 - **Real-time Switching**: Change language without page reload
+- **Help Documentation**: Multi-language help and keyboard shortcuts
 
 ### 💬 **Comment Preservation**
 - **JSONC ↔ JSON5**: Preserves all comments during conversion
@@ -146,7 +165,7 @@ just build-new
 ### 🔄 **Conversion Examples**
 
 #### Comment Preservation
-```javascript
+```
 // JSONC → JSON5 (preserves comments)
 {
     // Configuration settings
@@ -163,7 +182,7 @@ just build-new
 ```
 
 #### Same Format Processing
-```javascript
+```
 // JSONC → JSONC (preserves all comments and formatting)
 // JSON5 → JSON5 (preserves all comments and formatting)
 ```
@@ -189,6 +208,7 @@ just build-new
 - **Ctrl/Cmd + Shift + C**: Copy output to clipboard
 - **Ctrl/Cmd + Shift + D**: Download output as file
 - **Escape**: Clear all input and output
+- **F1**: Open help documentation with keyboard shortcuts
 
 ### 🎨 **Visual Feedback**
 - **Button States**: Active (green) → Success (green) → Normal state transitions
@@ -355,20 +375,6 @@ We welcome contributions! Please follow these steps:
 Apache 2.0 License - feel free to use this project for personal or commercial purposes.
 
 See [LICENSE](LICENSE) file for details.
-
-## 📈 **Changelog**
-
-### v0.1.0 (2025-08-11)
-- 🎉 **Initial Release**
-- ✅ **Core Features**: JSON ↔ JSONC ↔ JSON5 conversion
-- 💬 **Comment Preservation**: Smart comment handling between formats
-- 🌍 **Multi-language Support**: English and Chinese interfaces
-- 🎨 **Advanced Editor**: CodeMirror with syntax highlighting
-- 📦 **Dual Distribution**: Chrome extension and standalone web app
-- 🛠️ **Developer Tools**: Comprehensive build system and testing
-- ⌨️ **Keyboard Shortcuts**: Productivity-focused hotkeys
-- 📱 **Responsive Design**: Works on desktop and mobile
-- 🔧 **Customizable**: Configurable indentation and sorting options
 
 ## 🙏 **Acknowledgments**
 

@@ -1,0 +1,234 @@
+{
+  "appName": {
+    "message": "JSON Format Converter",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Powerful JSON/JSONC/JSON5 editor and converter with syntax highlighting.",
+    "description": "Description of the application"
+  },
+  "title": {
+    "message": "JSON Format Converter",
+    "description": "Main title"
+  },
+  "subtitle": {
+    "message": "Convert between JSON, JSONC, and JSON5 formats",
+    "description": "Subtitle description"
+  },
+  "language": {
+    "message": "Language",
+    "description": "Language selector label"
+  },
+  "inputFormat": {
+    "message": "Input Format",
+    "description": "Input format selector label"
+  },
+  "outputFormat": {
+    "message": "Output Format",
+    "description": "Output format selector label"
+  },
+  "inputPanel": {
+    "message": "Input",
+    "description": "Input panel title"
+  },
+  "outputPanel": {
+    "message": "Output",
+    "description": "Output panel title"
+  },
+  "convert": {
+    "message": "Convert",
+    "description": "Convert button"
+  },
+  "format": {
+    "message": "Format",
+    "description": "Format button"
+  },
+  "compress": {
+    "message": "Compress",
+    "description": "Compress button"
+  },
+  "escape": {
+    "message": "Escape",
+    "description": "Escape button"
+  },
+  "unescape": {
+    "message": "Unescape",
+    "description": "Unescape button"
+  },
+  "toNumbers": {
+    "message": "To Numbers",
+    "description": "Convert to numbers button"
+  },
+  "toStrings": {
+    "message": "To Strings",
+    "description": "Convert to strings button"
+  },
+  "sortAZ": {
+    "message": "Sort A-Z",
+    "description": "Sort A to Z button"
+  },
+  "sortZA": {
+    "message": "Sort Z-A",
+    "description": "Sort Z to A button"
+  },
+  "copyInput": {
+    "message": "Copy Input",
+    "description": "Copy input button"
+  },
+  "copyOutput": {
+    "message": "Copy Output",
+    "description": "Copy output button"
+  },
+  "clearInput": {
+    "message": "Clear Input",
+    "description": "Clear input button"
+  },
+  "clearOutput": {
+    "message": "Clear Output",
+    "description": "Clear output button"
+  },
+  "downloadOutput": {
+    "message": "Download",
+    "description": "Download output button"
+  },
+  "help": {
+    "message": "Help",
+    "description": "Help button"
+  },
+  "helpLink": {
+    "message": "📖 Help & Shortcuts",
+    "description": "Help link in header"
+  },
+  "copied": {
+    "message": "Copied to clipboard!",
+    "description": "Success message when content is copied"
+  },
+  "cleared": {
+    "message": "Content cleared!",
+    "description": "Success message when content is cleared"
+  },
+  "downloaded": {
+    "message": "File downloaded!",
+    "description": "Success message when file is downloaded"
+  },
+  "invalidJson": {
+    "message": "Invalid JSON format",
+    "description": "Error message for invalid JSON"
+  },
+  "conversionError": {
+    "message": "Conversion error",
+    "description": "Generic conversion error message"
+  },
+  "noContent": {
+    "message": "No content to process",
+    "description": "Error message when there's no content"
+  },
+  "inputEmpty": {
+    "message": "Input is empty",
+    "description": "Error message when input is empty"
+  },
+  "processingError": {
+    "message": "Processing error occurred",
+    "description": "Generic processing error message"
+  },
+  "formatJson": {
+    "message": "JSON",
+    "description": "JSON format option"
+  },
+  "formatJsonc": {
+    "message": "JSONC",
+    "description": "JSONC format option"
+  },
+  "formatJson5": {
+    "message": "JSON5",
+    "description": "JSON5 format option"
+  },
+  "autoDetect": {
+    "message": "Auto Detect",
+    "description": "Auto detect format option"
+  },
+  "aboutTitle": {
+    "message": "About JSON Format Converter",
+    "description": "About dialog title"
+  },
+  "aboutDescription": {
+    "message": "A powerful tool for converting between JSON, JSONC, and JSON5 formats with advanced editing features and comment preservation.",
+    "description": "About dialog description"
+  },
+  "version": {
+    "message": "Version",
+    "description": "Version label"
+  },
+  "developer": {
+    "message": "Developer",
+    "description": "Developer label"
+  },
+  "license": {
+    "message": "License",
+    "description": "License label"
+  },
+  "github": {
+    "message": "GitHub",
+    "description": "GitHub link label"
+  },
+  "close": {
+    "message": "Close",
+    "description": "Close button"
+  },
+  "clear": {
+    "message": "Clear",
+    "description": "clear button/label"
+  },
+  "example": {
+    "message": "Example",
+    "description": "example button/label"
+  },
+  "minify": {
+    "message": "Minify",
+    "description": "minify button/label"
+  },
+  "sortKeys": {
+    "message": "Sort Keys",
+    "description": "sortKeys button/label"
+  },
+  "order": {
+    "message": "Order",
+    "description": "order button/label"
+  },
+  "orderAsc": {
+    "message": "A-Z",
+    "description": "orderAsc button/label"
+  },
+  "orderDesc": {
+    "message": "Z-A",
+    "description": "orderDesc button/label"
+  },
+  "deepSort": {
+    "message": "Deep Sort",
+    "description": "deepSort button/label"
+  },
+  "indent": {
+    "message": "Indent",
+    "description": "indent button/label"
+  },
+  "indent2": {
+    "message": "2",
+    "description": "indent2 button/label"
+  },
+  "indent4": {
+    "message": "4",
+    "description": "indent4 button/label"
+  },
+  "indentTab": {
+    "message": "Tab",
+    "description": "indentTab button/label"
+  },
+  "input": {
+    "message": "Input",
+    "description": "input button/label"
+  },
+  "output": {
+    "message": "Output",
+    "description": "output button/label"
+  }
+}

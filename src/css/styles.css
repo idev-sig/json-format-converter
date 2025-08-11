@@ -10,7 +10,7 @@ body {
     background-color: #f5f7fa;
     color: #333;
     line-height: 1.6;
-    font-size: 16px; /* 增加基础字号 */
+    font-size: 18px; /* 从16px增加到18px */
 }
 
 .container {
@@ -81,14 +81,14 @@ header {
 }
 
 .title-section h1 {
-    font-size: 28px; /* 从24px增加到28px */
+    font-size: 32px; /* 从28px增加到32px */
     margin-bottom: 5px;
     font-weight: 600;
 }
 
 .title-section p {
     opacity: 0.9;
-    font-size: 16px; /* 从14px增加到16px */
+    font-size: 18px; /* 从16px增加到18px */
     margin: 0;
 }
 
@@ -100,7 +100,7 @@ header {
 }
 
 .language-section label {
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     opacity: 0.9;
     white-space: nowrap;
 }
@@ -111,7 +111,7 @@ header {
     border-radius: 4px;
     background: rgba(255,255,255,0.1);
     color: white;
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     min-width: 80px;
 }
 
@@ -151,7 +151,7 @@ header {
 .format-selector label {
     font-weight: 500;
     color: #495057;
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -161,7 +161,7 @@ header {
     border: 1px solid #ced4da;
     border-radius: 4px;
     background: white;
-    font-size: 16px; /* 从14px增加到16px */
+    font-size: 18px; /* 从16px增加到18px */
     color: #495057;
     min-width: 100px;
 }
@@ -216,7 +216,7 @@ header {
 }
 
 .panel-header h3 {
-    font-size: 16px; /* 从14px增加到16px */
+    font-size: 18px; /* 从16px增加到18px */
     font-weight: 600;
     color: #495057;
     margin: 0;
@@ -232,10 +232,10 @@ header {
 
 /* Buttons */
 .btn {
-    padding: 8px 14px; /* 增加内边距 */
+    padding: 10px 16px; /* 从8px 14px增加到10px 16px */
     border: none;
     border-radius: 4px;
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -277,9 +277,9 @@ header {
 }
 
 .btn-sm {
-    padding: 6px 8px; /* 增加小按钮内边距 */
-    font-size: 12px; /* 从10px增加到12px */
-    min-width: 50px;
+    padding: 8px 12px; /* 从6px 8px增加到8px 12px */
+    font-size: 14px; /* 从12px增加到14px */
+    min-width: 60px;
 }
 
 .btn:disabled {
@@ -294,7 +294,7 @@ textarea {
     padding: 15px;
     border: none;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 15px; /* 从13px增加到15px */
+    font-size: 17px; /* 从15px增加到17px */
     line-height: 1.5;
     resize: none;
     background: #fafbfc;
@@ -316,7 +316,7 @@ textarea[readonly] {
     height: 100%;
     min-height: 100%;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 15px; /* 从13px增加到15px */
+    font-size: 17px; /* 从15px增加到17px */
     line-height: 1.5;
     border: none;
     background: white;
@@ -364,7 +364,7 @@ textarea[readonly] {
 }
 
 .error-message {
-    font-size: 16px; /* 从14px增加到16px */
+    font-size: 18px; /* 从16px增加到18px */
 }
 
 .option {
@@ -378,7 +378,7 @@ textarea[readonly] {
 }
 
 .option label {
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     color: #495057;
     cursor: pointer;
     white-space: nowrap;
@@ -388,7 +388,7 @@ textarea[readonly] {
     padding: 4px 8px;
     border: 1px solid #ced4da;
     border-radius: 4px;
-    font-size: 14px; /* 从12px增加到14px */
+    font-size: 16px; /* 从14px增加到16px */
     min-width: 60px;
 }
 
@@ -398,13 +398,13 @@ footer {
     text-align: center;
     background: #f8f9fa;
     border-top: 1px solid #e9ecef;
-    font-size: 16px; /* 增加footer字体大小 */
+    font-size: 18px; /* 从16px增加到18px */
 }
 
 .standalone-link {
     color: #667eea;
     text-decoration: none;
-    font-size: 16px; /* 从14px增加到16px */
+    font-size: 18px; /* 从16px增加到18px */
 }
 
 .standalone-link:hover {

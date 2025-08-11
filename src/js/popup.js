@@ -5,8 +5,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const converter = new JSONConverter();
 
-    // Initialize i18n
-    if (window.i18n && typeof window.i18n.updateUI === 'function') {
+    // Initialize i18n - prefer Chrome extension i18n if available
+    if (window.chromeI18n && typeof window.chromeI18n.updateUI === 'function') {
+        window.chromeI18n.updateUI();
+        // Set global i18n reference for compatibility
+        window.i18n = window.chromeI18n;
+    } else if (window.i18n && typeof window.i18n.updateUI === 'function') {
         window.i18n.updateUI();
     } else {
         console.warn('i18n not loaded properly');
@@ -51,8 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadExampleBtn = document.getElementById('load-example');
     const copyOutputBtn = document.getElementById('copy-output');
     const downloadOutputBtn = document.getElementById('download-output');
-    const numbersToStringsBtn = document.getElementById('numbers-to-strings');
-    const stringsToNumbersBtn = document.getElementById('strings-to-numbers');
+    const toggleNumberStringBtn = document.getElementById('toggle-number-string');
 
     // Button state management
     function setButtonActive(button, duration = 1000) {
@@ -91,8 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!unescapeInputBtn) console.error('Unescape input button not found');
     if (!copyOutputBtn) console.error('Copy output button not found');
     if (!downloadOutputBtn) console.error('Download output button not found');
-    if (!numbersToStringsBtn) console.error('Numbers to strings button not found');
-    if (!stringsToNumbersBtn) console.error('Strings to numbers button not found');
+    if (!toggleNumberStringBtn) console.error('Toggle number/string button not found');
     
     // Options
     const minifyOutput = document.getElementById('minify-output');
@@ -228,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = inputEditor.getValue();
 
         if (!input.trim()) {
-            showError('Input is empty');
+            showError(window.i18n.t('inputEmpty'));
             return;
         }
 
@@ -245,43 +247,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Convert numbers to strings in output
-    function convertNumbersToStrings() {
+    // Toggle between numbers and strings conversion
+    let isNumberMode = true; // true = convert to numbers, false = convert to strings
+
+    function toggleNumberStringConversion() {
         const input = inputEditor.getValue();
         const inputFmt = inputFormat.value;
+        const outputFmt = outputFormat.value;
 
         if (!input.trim()) {
             return;
         }
 
-        const result = converter.numbersToStrings(input, inputFmt);
+        let result;
+
+        if (isNumberMode) {
+            // Convert strings to numbers
+            result = converter.stringsToNumbers(input, inputFmt, outputFmt);
+        } else {
+            // Convert numbers to strings
+            result = converter.numbersToStrings(input, inputFmt, outputFmt);
+        }
 
         if (result.success) {
             outputEditor.setValue(result.result);
             hideError();
-            setButtonActive(numbersToStringsBtn);
+            setButtonActive(toggleNumberStringBtn);
+
+            // Toggle mode and update button text
+            isNumberMode = !isNumberMode;
+            updateToggleButtonText();
         } else {
             showError(result.error);
         }
     }
 
-    // Convert strings to numbers in output
-    function convertStringsToNumbers() {
-        const input = inputEditor.getValue();
-        const inputFmt = inputFormat.value;
-
-        if (!input.trim()) {
-            return;
-        }
-
-        const result = converter.stringsToNumbers(input, inputFmt);
-
-        if (result.success) {
-            outputEditor.setValue(result.result);
-            hideError();
-            setButtonActive(stringsToNumbersBtn);
-        } else {
-            showError(result.error);
+    // Update toggle button text based on current mode
+    function updateToggleButtonText() {
+        if (toggleNumberStringBtn) {
+            if (isNumberMode) {
+                toggleNumberStringBtn.textContent = window.i18n.t('toNumbers');
+                toggleNumberStringBtn.setAttribute('data-i18n', 'toNumbers');
+            } else {
+                toggleNumberStringBtn.textContent = window.i18n.t('toStrings');
+                toggleNumberStringBtn.setAttribute('data-i18n', 'toStrings');
+            }
         }
     }
 
@@ -362,15 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listeners
     inputEditor.on('change', autoConvert);
-    inputFormat.addEventListener('change', () => {
-        // If input is empty or contains only sample data, load new sample
-        const inputValue = inputEditor.getValue();
-        if (!inputValue.trim() || inputValue.includes('JSON Format Converter')) {
-            loadSampleData();
-        } else {
-            autoConvert();
-        }
-    });
+    inputFormat.addEventListener('change', autoConvert);
     outputFormat.addEventListener('change', autoConvert);
     minifyOutput.addEventListener('change', autoConvert);
     sortKeys.addEventListener('change', autoConvert);
@@ -381,8 +383,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Language selector
     if (languageSelect) {
         languageSelect.addEventListener('change', (e) => {
-            window.i18n.setLanguage(e.target.value);
+            console.log('Language selector changed to:', e.target.value);
+
+            // Allow manual language switching in both environments
+            if (window.i18n && window.i18n.setLanguage) {
+                window.i18n.setLanguage(e.target.value);
+            } else {
+                console.warn('i18n.setLanguage not available');
+            }
         });
+
+        // Set initial language selector value
+        setTimeout(() => {
+            if (window.i18n && window.i18n.getCurrentLanguage) {
+                languageSelect.value = window.i18n.getCurrentLanguage();
+            }
+        }, 100);
     }
 
     clearInputBtn.addEventListener('click', () => {
@@ -441,20 +457,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (numbersToStringsBtn) {
-        numbersToStringsBtn.addEventListener('click', (e) => {
+    if (toggleNumberStringBtn) {
+        toggleNumberStringBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            convertNumbersToStrings();
+            toggleNumberStringConversion();
         });
-    }
 
-    if (stringsToNumbersBtn) {
-        stringsToNumbersBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            convertStringsToNumbers();
-        });
+        // Initialize button text
+        updateToggleButtonText();
     }
 
     // Add load example button handler if it exists
@@ -467,19 +478,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load sample data for demonstration
     function loadSampleData() {
-        const samples = window.i18n.getSampleData();
+        let sampleData;
+
+        // Check if getSampleData method exists (for standalone version with full i18n)
+        if (window.i18n && typeof window.i18n.getSampleData === 'function') {
+            sampleData = window.i18n.getSampleData();
+        } else {
+            // Fallback sample data for Chrome extension or when i18n is not fully loaded
+            sampleData = {
+                json5: `{
+    // Configuration file
+    name: "JSON Format Converter",
+    version: "1.0.0",
+    port: 8080,
+    timeout: 30000,
+    features: {
+        conversion: true,
+        validation: true,
+        formatting: true,
+    },
+    /* Multi-line comment
+       describing the settings */
+    settings: {
+        theme: "light",
+        language: "auto",
+        maxFileSize: 1048576,
+        retryCount: 3
+    },
+}`,
+                jsonc: `{
+    // Configuration file
+    "name": "JSON Format Converter",
+    "version": "1.0.0",
+    "port": 8080,
+    "timeout": 30000,
+    "features": {
+        "conversion": true,
+        "validation": true,
+        "formatting": true
+    },
+    /* Multi-line comment
+       describing the settings */
+    "settings": {
+        "theme": "light",
+        "language": "auto",
+        "maxFileSize": 1048576,
+        "retryCount": 3
+    }
+}`,
+                json: `{
+  "name": "JSON Format Converter",
+  "version": "1.0.0",
+  "port": 8080,
+  "timeout": 30000,
+  "features": {
+    "conversion": true,
+    "validation": true,
+    "formatting": true
+  },
+  "settings": {
+    "theme": "light",
+    "language": "auto",
+    "maxFileSize": 1048576,
+    "retryCount": 3
+  }
+}`
+            };
+        }
+
+        // Get current input format and use corresponding sample
         const currentFormat = inputFormat.value;
-        inputEditor.setValue(samples[currentFormat] || samples.json5);
+        let sample;
+
+        if (currentFormat === 'json5') {
+            sample = sampleData.json5;
+        } else if (currentFormat === 'jsonc') {
+            sample = sampleData.jsonc;
+        } else if (currentFormat === 'json') {
+            sample = sampleData.json;
+        } else {
+            // Auto-detect or fallback to JSON5
+            sample = sampleData.json5;
+        }
+
+        inputEditor.setValue(sample);
         performConversion();
     }
 
     // Make loadSampleData available globally for i18n
     window.loadSampleData = loadSampleData;
-
-    // Load sample data if input is empty
-    if (!inputEditor.getValue().trim()) {
-        loadSampleData();
-    }
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {

@@ -261,13 +261,41 @@ class JSONConverter {
     }
 
     /**
-     * Convert numbers to strings
+     * Convert numbers to strings (preserving comments for JSON5/JSONC)
      */
-    numbersToStrings(inputText, format) {
+    numbersToStrings(inputText, inputFormat, outputFormat = null) {
         try {
-            const parsed = this.parseInput(inputText, format);
+            const targetFormat = outputFormat || inputFormat;
+
+            // For JSON5 and JSONC input, use regex replacement to preserve comments
+            if (inputFormat === 'json5' || inputFormat === 'jsonc') {
+                // First convert numbers to strings while preserving comments
+                const converted = this.convertNumbersToStringsPreserveComments(inputText);
+
+                // Always apply target format styling, even if formats are the same
+                let result = converted;
+                if (targetFormat === 'json5') {
+                    // Ensure JSON5 style (remove quotes from valid identifiers)
+                    result = this.convertJSONCToJSON5PreserveComments(result);
+                } else if (targetFormat === 'jsonc') {
+                    // Ensure JSONC style (add quotes to unquoted keys)
+                    result = this.convertJSON5ToJSONCPreserveComments(result);
+                } else if (targetFormat !== inputFormat) {
+                    // Convert to different format (JSON)
+                    result = this.convertFormatPreserveComments(converted, inputFormat, targetFormat);
+                }
+
+                return {
+                    success: true,
+                    result: result,
+                    error: null
+                };
+            }
+
+            // For standard JSON, use normal parsing
+            const parsed = this.parseInput(inputText, inputFormat);
             const converted = this.convertNumbersToStrings(parsed);
-            const result = this.convertToFormat(converted, format, this.options);
+            const result = this.convertToFormat(converted, targetFormat, this.options);
 
             return {
                 success: true,
@@ -284,13 +312,41 @@ class JSONConverter {
     }
 
     /**
-     * Convert strings to numbers
+     * Convert strings to numbers (preserving comments for JSON5/JSONC)
      */
-    stringsToNumbers(inputText, format) {
+    stringsToNumbers(inputText, inputFormat, outputFormat = null) {
         try {
-            const parsed = this.parseInput(inputText, format);
+            const targetFormat = outputFormat || inputFormat;
+
+            // For JSON5 and JSONC input, use regex replacement to preserve comments
+            if (inputFormat === 'json5' || inputFormat === 'jsonc') {
+                // First convert strings to numbers while preserving comments
+                const converted = this.convertStringsToNumbersPreserveComments(inputText);
+
+                // Always apply target format styling, even if formats are the same
+                let result = converted;
+                if (targetFormat === 'json5') {
+                    // Ensure JSON5 style (remove quotes from valid identifiers)
+                    result = this.convertJSONCToJSON5PreserveComments(result);
+                } else if (targetFormat === 'jsonc') {
+                    // Ensure JSONC style (add quotes to unquoted keys)
+                    result = this.convertJSON5ToJSONCPreserveComments(result);
+                } else if (targetFormat !== inputFormat) {
+                    // Convert to different format (JSON)
+                    result = this.convertFormatPreserveComments(converted, inputFormat, targetFormat);
+                }
+
+                return {
+                    success: true,
+                    result: result,
+                    error: null
+                };
+            }
+
+            // For standard JSON, use normal parsing
+            const parsed = this.parseInput(inputText, inputFormat);
             const converted = this.convertStringsToNumbers(parsed);
-            const result = this.convertToFormat(converted, format, this.options);
+            const result = this.convertToFormat(converted, targetFormat, this.options);
 
             return {
                 success: true,
@@ -304,6 +360,70 @@ class JSONConverter {
                 error: error.message
             };
         }
+    }
+
+    /**
+     * Convert format while preserving comments (for JSON5/JSONC)
+     */
+    convertFormatPreserveComments(inputText, fromFormat, toFormat) {
+        // Only handle conversions between JSON5 and JSONC (both support comments)
+        if ((fromFormat === 'json5' || fromFormat === 'jsonc') &&
+            (toFormat === 'json5' || toFormat === 'jsonc')) {
+
+            if (fromFormat === 'json5' && toFormat === 'jsonc') {
+                // JSON5 to JSONC: add quotes to unquoted keys
+                return this.convertJSON5ToJSONCPreserveComments(inputText);
+            } else if (fromFormat === 'jsonc' && toFormat === 'json5') {
+                // JSONC to JSON5: remove quotes from keys (optional)
+                return this.convertJSONCToJSON5PreserveComments(inputText);
+            }
+        }
+
+        // For conversions to/from standard JSON, comments will be lost
+        // Fall back to normal parsing
+        const parsed = this.parseInput(inputText, fromFormat);
+        return this.convertToFormat(parsed, toFormat, this.options);
+    }
+
+    /**
+     * Convert JSON5 to JSONC while preserving comments
+     */
+    convertJSON5ToJSONCPreserveComments(inputText) {
+        // Add quotes to unquoted keys
+        return inputText.replace(/(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":');
+    }
+
+    /**
+     * Convert JSONC to JSON5 while preserving comments
+     */
+    convertJSONCToJSON5PreserveComments(inputText) {
+        // Remove quotes from simple keys to match JSON5 style
+        // Only remove quotes from keys that are valid JavaScript identifiers
+        return inputText.replace(/(\s*)"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1$2:');
+    }
+
+    /**
+     * Convert numbers to strings while preserving comments (for JSON5/JSONC)
+     */
+    convertNumbersToStringsPreserveComments(inputText) {
+        // Use regex to find and replace numbers with their string equivalents
+        // This preserves comments and formatting
+        // Handle different cases: number followed by comma, or number at end of line before closing bracket
+        return inputText.replace(/:([ \t]*)(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)(?=([ \t]*,)|([ \t]*(?:\r?\n|\r)[ \t]*[\]\}])|([ \t]*[\]\}]))/g, (_, beforeSpace, number) => {
+            return `:${beforeSpace}"${number}"`;
+        });
+    }
+
+    /**
+     * Convert strings to numbers while preserving comments (for JSON5/JSONC)
+     */
+    convertStringsToNumbersPreserveComments(inputText) {
+        // Use regex to find and replace numeric strings with numbers
+        // This preserves comments and formatting
+        // Handle different cases: string followed by comma, or string at end of line before closing bracket
+        return inputText.replace(/:([ \t]*)"(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)"(?=([ \t]*,)|([ \t]*(?:\r?\n|\r)[ \t]*[\]\}])|([ \t]*[\]\}]))/g, (_, beforeSpace, number) => {
+            return `:${beforeSpace}${number}`;
+        });
     }
 
     /**

@@ -1,0 +1,234 @@
+{
+  "appName": {
+    "message": "JSON格式轉換器",
+    "description": "應用程式名稱"
+  },
+  "appDescription": {
+    "message": "功能強大的JSON/JSONC/JSON5編輯器和轉換器，支援語法高亮。",
+    "description": "應用程式描述"
+  },
+  "title": {
+    "message": "JSON格式轉換器",
+    "description": "主標題"
+  },
+  "subtitle": {
+    "message": "在JSON、JSONC和JSON5格式之間轉換",
+    "description": "副標題描述"
+  },
+  "language": {
+    "message": "語言",
+    "description": "語言選擇器標籤"
+  },
+  "inputFormat": {
+    "message": "輸入格式",
+    "description": "輸入格式選擇器標籤"
+  },
+  "outputFormat": {
+    "message": "輸出格式",
+    "description": "輸出格式選擇器標籤"
+  },
+  "inputPanel": {
+    "message": "輸入",
+    "description": "輸入面板標題"
+  },
+  "outputPanel": {
+    "message": "輸出",
+    "description": "輸出面板標題"
+  },
+  "convert": {
+    "message": "轉換",
+    "description": "轉換按鈕"
+  },
+  "format": {
+    "message": "格式化",
+    "description": "格式化按鈕"
+  },
+  "compress": {
+    "message": "壓縮",
+    "description": "壓縮按鈕"
+  },
+  "escape": {
+    "message": "轉義",
+    "description": "轉義按鈕"
+  },
+  "unescape": {
+    "message": "反轉義",
+    "description": "反轉義按鈕"
+  },
+  "toNumbers": {
+    "message": "轉數字",
+    "description": "轉換為數字按鈕"
+  },
+  "toStrings": {
+    "message": "轉字串",
+    "description": "轉換為字串按鈕"
+  },
+  "sortAZ": {
+    "message": "排序A-Z",
+    "description": "A到Z排序按鈕"
+  },
+  "sortZA": {
+    "message": "排序Z-A",
+    "description": "Z到A排序按鈕"
+  },
+  "copyInput": {
+    "message": "複製輸入",
+    "description": "複製輸入按鈕"
+  },
+  "copyOutput": {
+    "message": "複製輸出",
+    "description": "複製輸出按鈕"
+  },
+  "clearInput": {
+    "message": "清空輸入",
+    "description": "清空輸入按鈕"
+  },
+  "clearOutput": {
+    "message": "清空輸出",
+    "description": "清空輸出按鈕"
+  },
+  "downloadOutput": {
+    "message": "下載",
+    "description": "下載輸出按鈕"
+  },
+  "help": {
+    "message": "幫助",
+    "description": "幫助按鈕"
+  },
+  "helpLink": {
+    "message": "📖 幫助和快捷鍵",
+    "description": "頁首中的幫助連結"
+  },
+  "copied": {
+    "message": "已複製到剪貼簿！",
+    "description": "內容複製成功訊息"
+  },
+  "cleared": {
+    "message": "內容已清空！",
+    "description": "內容清空成功訊息"
+  },
+  "downloaded": {
+    "message": "檔案已下載！",
+    "description": "檔案下載成功訊息"
+  },
+  "invalidJson": {
+    "message": "無效的JSON格式",
+    "description": "無效JSON錯誤訊息"
+  },
+  "conversionError": {
+    "message": "轉換錯誤",
+    "description": "通用轉換錯誤訊息"
+  },
+  "noContent": {
+    "message": "沒有內容可處理",
+    "description": "無內容錯誤訊息"
+  },
+  "inputEmpty": {
+    "message": "輸入為空",
+    "description": "輸入為空時的錯誤訊息"
+  },
+  "processingError": {
+    "message": "處理過程中發生錯誤",
+    "description": "通用處理錯誤訊息"
+  },
+  "formatJson": {
+    "message": "JSON",
+    "description": "JSON格式選項"
+  },
+  "formatJsonc": {
+    "message": "JSONC",
+    "description": "JSONC格式選項"
+  },
+  "formatJson5": {
+    "message": "JSON5",
+    "description": "JSON5格式選項"
+  },
+  "autoDetect": {
+    "message": "自動檢測",
+    "description": "自動檢測格式選項"
+  },
+  "aboutTitle": {
+    "message": "關於JSON格式轉換器",
+    "description": "關於對話框標題"
+  },
+  "aboutDescription": {
+    "message": "一個功能強大的工具，用於在JSON、JSONC和JSON5格式之間轉換，具有高級編輯功能和註釋保留能力。",
+    "description": "關於對話框描述"
+  },
+  "version": {
+    "message": "版本",
+    "description": "版本標籤"
+  },
+  "developer": {
+    "message": "開發者",
+    "description": "開發者標籤"
+  },
+  "license": {
+    "message": "許可證",
+    "description": "許可證標籤"
+  },
+  "github": {
+    "message": "GitHub",
+    "description": "GitHub連結標籤"
+  },
+  "close": {
+    "message": "關閉",
+    "description": "關閉按鈕"
+  },
+  "clear": {
+    "message": "清空",
+    "description": "clear button/label"
+  },
+  "example": {
+    "message": "範例",
+    "description": "example button/label"
+  },
+  "minify": {
+    "message": "壓縮",
+    "description": "minify button/label"
+  },
+  "sortKeys": {
+    "message": "排序鍵",
+    "description": "sortKeys button/label"
+  },
+  "order": {
+    "message": "順序",
+    "description": "order button/label"
+  },
+  "orderAsc": {
+    "message": "A-Z",
+    "description": "orderAsc button/label"
+  },
+  "orderDesc": {
+    "message": "Z-A",
+    "description": "orderDesc button/label"
+  },
+  "deepSort": {
+    "message": "深度排序",
+    "description": "deepSort button/label"
+  },
+  "indent": {
+    "message": "縮排",
+    "description": "indent button/label"
+  },
+  "indent2": {
+    "message": "2",
+    "description": "indent2 button/label"
+  },
+  "indent4": {
+    "message": "4",
+    "description": "indent4 button/label"
+  },
+  "indentTab": {
+    "message": "Tab",
+    "description": "indentTab button/label"
+  },
+  "input": {
+    "message": "輸入",
+    "description": "input button/label"
+  },
+  "output": {
+    "message": "輸出",
+    "description": "output button/label"
+  }
+}

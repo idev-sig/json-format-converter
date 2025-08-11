@@ -164,11 +164,19 @@ check-structure:
 check-all:
     @echo "🔍 验证项目完整性..."
     @./scripts/validate.sh
+    @echo ""
+    @echo "🌍 验证i18n..."
+    @node scripts/test-i18n.js
 
 # 测试注释保留功能
 test-comments:
     @echo "🔄 测试注释保留功能..."
     @node scripts/test-comments.js
+
+# 测试i18n功能
+test-i18n:
+    @echo "🌍 测试i18n功能..."
+    @node scripts/test-i18n.js
 
 # 完整的发布流程
 release: clean install validate build

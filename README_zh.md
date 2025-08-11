@@ -2,11 +2,29 @@
 
 [![版本](https://img.shields.io/badge/版本-0.1.0-blue.svg)](https://github.com/idev-sig/json-format-converter)
 [![许可证](https://img.shields.io/badge/许可证-Apache_2.0-green.svg)](LICENSE)
-[![Chrome扩展](https://img.shields.io/badge/Chrome-扩展-orange.svg)](https://chrome.google.com/webstore)
+[![Chrome扩展](https://img.shields.io/badge/Chrome-扩展-orange.svg)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
 
 **[English](README.md) | [中文](README_zh.md)**
 
 一个功能强大的 Chrome 扩展和独立网页应用，用于在 JSON、JSONC（带注释的JSON）和 JSON5 格式之间进行转换，具有高级编辑功能和注释保留能力。
+
+## 🚀 快速开始
+
+### Chrome 扩展
+[![Chrome 应用商店](https://img.shields.io/badge/Chrome%20应用商店-安装-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+**从Chrome应用商店安装**: [JSON Format Converter](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+1. 点击上面的链接或访问Chrome应用商店
+2. 点击"添加至Chrome"
+3. 点击工具栏中的扩展图标开始转换
+
+### 在线网页应用
+[![在线演示](https://img.shields.io/badge/在线演示-立即试用-green?logo=github)](https://idev-sig.github.io/json-format-converter/)
+
+**在线试用**: [https://idev-sig.github.io/json-format-converter/](https://idev-sig.github.io/json-format-converter/)
+
+无需安装 - 直接在浏览器中使用！
 
 ## 功能特性
 
@@ -55,11 +73,12 @@
 - 全面的帮助文档
 
 ### 🌍 **多语言支持**
-- **英文（默认）** 和 **中文** 界面
-- **自动语言检测**: 检测浏览器语言偏好
-- **持久设置**: 语言选择保存在本地存储
-- **本地化内容**: 示例数据、帮助文本和错误消息
-- **实时切换**: 无需重新加载页面即可更改语言
+- **英语（默认）**、**中文**、**日语（日本語）**、**韩语（한국어）**、**德语（Deutsch）**、**法语（Français）**、**西班牙语（Español）**、**俄语（Русский）**、**阿拉伯语（العربية）**、**葡萄牙语（Português）**界面
+- **自动语言检测**：检测浏览器语言偏好设置
+- **持久化设置**：语言选择保存在 localStorage 中
+- **本地化内容**：示例数据、帮助文本和错误消息
+- **实时切换**：无需重新加载页面即可更改语言
+- **帮助文档**：多语言帮助和键盘快捷键
 
 ### 💬 **注释保留**
 - **JSONC ↔ JSON5**: 转换期间保留所有注释
@@ -142,7 +161,7 @@ just build-new
 ### 🔄 **转换示例**
 
 #### 注释保留
-```javascript
+```
 // JSONC → JSON5 (保留注释)
 {
     // 配置设置
@@ -159,7 +178,7 @@ just build-new
 ```
 
 #### 同格式处理
-```javascript
+```
 // JSONC → JSONC (保留所有注释和格式)
 // JSON5 → JSON5 (保留所有注释和格式)
 ```
@@ -183,8 +202,9 @@ just build-new
 ### ⌨️ **键盘快捷键**
 - **Ctrl/Cmd + Enter**: 格式化和美化输入
 - **Ctrl/Cmd + Shift + C**: 复制输出到剪贴板
-- **Ctrl/Cmd + Shift + D**: 下载输出为文件
+- **Ctrl/Cmd + Shift + D**: 将输出下载为文件
 - **Escape**: 清空所有输入和输出
+- **F1**: 打开带有键盘快捷键的帮助文档
 
 ### 🎨 **视觉反馈**
 - **按钮状态**: 活动（绿色）→ 成功（绿色）→ 正常状态转换
@@ -352,20 +372,6 @@ convert icon.svg -resize 128x128 icon128.png
 Apache 2.0 许可证 - 可自由用于个人或商业用途。
 
 详见 [LICENSE](LICENSE) 文件。
-
-## 📈 **更新日志**
-
-### v0.1.0 (2025-08-11)
-- 🎉 **首次发布**
-- ✅ **核心功能**: JSON ↔ JSONC ↔ JSON5 转换
-- 💬 **注释保留**: 格式间的智能注释处理
-- 🌍 **多语言支持**: 英文和中文界面
-- 🎨 **高级编辑器**: 带语法高亮的 CodeMirror
-- 📦 **双重分发**: Chrome 扩展和独立网页应用
-- 🛠️ **开发工具**: 全面的构建系统和测试
-- ⌨️ **键盘快捷键**: 专注生产力的热键
-- 📱 **响应式设计**: 适用于桌面和移动设备
-- 🔧 **可自定义**: 可配置的缩进和排序选项
 
 ## 🙏 **致谢**
 

@@ -1,0 +1,234 @@
+{
+  "appName": {
+    "message": "Conversor de Formato JSON",
+    "description": "Nome da aplicação"
+  },
+  "appDescription": {
+    "message": "Editor e conversor JSON/JSONC/JSON5 poderoso com destaque de sintaxe.",
+    "description": "Descrição da aplicação"
+  },
+  "title": {
+    "message": "Conversor de Formato JSON",
+    "description": "Título principal"
+  },
+  "subtitle": {
+    "message": "Converta entre formatos JSON, JSONC e JSON5",
+    "description": "Descrição do subtítulo"
+  },
+  "language": {
+    "message": "Idioma",
+    "description": "Rótulo do seletor de idioma"
+  },
+  "inputFormat": {
+    "message": "Formato de Entrada",
+    "description": "Rótulo do seletor de formato de entrada"
+  },
+  "outputFormat": {
+    "message": "Formato de Saída",
+    "description": "Rótulo do seletor de formato de saída"
+  },
+  "inputPanel": {
+    "message": "Entrada",
+    "description": "Título do painel de entrada"
+  },
+  "outputPanel": {
+    "message": "Saída",
+    "description": "Título do painel de saída"
+  },
+  "convert": {
+    "message": "Converter",
+    "description": "Botão converter"
+  },
+  "format": {
+    "message": "Formatar",
+    "description": "Botão formatar"
+  },
+  "compress": {
+    "message": "Comprimir",
+    "description": "Botão comprimir"
+  },
+  "escape": {
+    "message": "Escapar",
+    "description": "Botão escapar"
+  },
+  "unescape": {
+    "message": "Remover escape",
+    "description": "Botão remover escape"
+  },
+  "toNumbers": {
+    "message": "Para Números",
+    "description": "Botão converter para números"
+  },
+  "toStrings": {
+    "message": "Para Strings",
+    "description": "Botão converter para strings"
+  },
+  "sortAZ": {
+    "message": "Ordenar A-Z",
+    "description": "Botão ordenar de A a Z"
+  },
+  "sortZA": {
+    "message": "Ordenar Z-A",
+    "description": "Botão ordenar de Z a A"
+  },
+  "copyInput": {
+    "message": "Copiar Entrada",
+    "description": "Botão copiar entrada"
+  },
+  "copyOutput": {
+    "message": "Copiar Saída",
+    "description": "Botão copiar saída"
+  },
+  "clearInput": {
+    "message": "Limpar Entrada",
+    "description": "Botão limpar entrada"
+  },
+  "clearOutput": {
+    "message": "Limpar Saída",
+    "description": "Botão limpar saída"
+  },
+  "downloadOutput": {
+    "message": "Baixar",
+    "description": "Botão baixar saída"
+  },
+  "help": {
+    "message": "Ajuda",
+    "description": "Botão ajuda"
+  },
+  "helpLink": {
+    "message": "📖 Ajuda e Atalhos",
+    "description": "Link de ajuda no cabeçalho"
+  },
+  "copied": {
+    "message": "Copiado para a área de transferência!",
+    "description": "Mensagem de sucesso ao copiar conteúdo"
+  },
+  "cleared": {
+    "message": "Conteúdo limpo!",
+    "description": "Mensagem de sucesso ao limpar conteúdo"
+  },
+  "downloaded": {
+    "message": "Arquivo baixado!",
+    "description": "Mensagem de sucesso ao baixar arquivo"
+  },
+  "invalidJson": {
+    "message": "Formato JSON inválido",
+    "description": "Mensagem de erro para JSON inválido"
+  },
+  "conversionError": {
+    "message": "Erro de conversão",
+    "description": "Mensagem de erro de conversão genérica"
+  },
+  "noContent": {
+    "message": "Nenhum conteúdo para processar",
+    "description": "Mensagem de erro quando não há conteúdo"
+  },
+  "inputEmpty": {
+    "message": "Input is empty",
+    "description": "Error message when input is empty"
+  },
+  "processingError": {
+    "message": "Ocorreu um erro de processamento",
+    "description": "Mensagem de erro de processamento genérica"
+  },
+  "formatJson": {
+    "message": "JSON",
+    "description": "Opção de formato JSON"
+  },
+  "formatJsonc": {
+    "message": "JSONC",
+    "description": "Opção de formato JSONC"
+  },
+  "formatJson5": {
+    "message": "JSON5",
+    "description": "Opção de formato JSON5"
+  },
+  "autoDetect": {
+    "message": "Detecção Automática",
+    "description": "Opção de detecção automática de formato"
+  },
+  "aboutTitle": {
+    "message": "Sobre o Conversor de Formato JSON",
+    "description": "Título da caixa de diálogo Sobre"
+  },
+  "aboutDescription": {
+    "message": "Uma ferramenta poderosa para converter entre formatos JSON, JSONC e JSON5 com recursos avançados de edição e preservação de comentários.",
+    "description": "Descrição da caixa de diálogo Sobre"
+  },
+  "version": {
+    "message": "Versão",
+    "description": "Rótulo de versão"
+  },
+  "developer": {
+    "message": "Desenvolvedor",
+    "description": "Rótulo de desenvolvedor"
+  },
+  "license": {
+    "message": "Licença",
+    "description": "Rótulo de licença"
+  },
+  "github": {
+    "message": "GitHub",
+    "description": "Rótulo do link do GitHub"
+  },
+  "close": {
+    "message": "Fechar",
+    "description": "Botão fechar"
+  },
+  "clear": {
+    "message": "Limpar",
+    "description": "Botão/rótulo limpar"
+  },
+  "example": {
+    "message": "Exemplo",
+    "description": "Botão/rótulo exemplo"
+  },
+  "minify": {
+    "message": "Minimizar",
+    "description": "Botão/rótulo minimizar"
+  },
+  "sortKeys": {
+    "message": "Ordenar Chaves",
+    "description": "Botão/rótulo ordenar chaves"
+  },
+  "order": {
+    "message": "Ordem",
+    "description": "Botão/rótulo ordem"
+  },
+  "orderAsc": {
+    "message": "A-Z",
+    "description": "Botão/rótulo ordem ascendente"
+  },
+  "orderDesc": {
+    "message": "Z-A",
+    "description": "Botão/rótulo ordem descendente"
+  },
+  "deepSort": {
+    "message": "Ordenação Profunda",
+    "description": "Botão/rótulo ordenação profunda"
+  },
+  "indent": {
+    "message": "Indentação",
+    "description": "Botão/rótulo indentação"
+  },
+  "indent2": {
+    "message": "2",
+    "description": "Botão/rótulo indentação de 2"
+  },
+  "indent4": {
+    "message": "4",
+    "description": "Botão/rótulo indentação de 4"
+  },
+  "indentTab": {
+    "message": "Tab",
+    "description": "Botão/rótulo indentação com tabulação"
+  },
+  "input": {
+    "message": "Entrada",
+    "description": "Botão/rótulo entrada"
+  },
+  "output": {
+    "message": "Saída",
+    "description": "Botão/rótulo saída"
+  }
+}

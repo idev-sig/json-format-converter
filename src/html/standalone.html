@@ -12,6 +12,8 @@
             padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .container {
             width: 80vw;
@@ -23,12 +25,23 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 0;
             overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
         .editor-section {
-            height: 600px;
+            flex: 1;
+            min-height: 0;
         }
         .input-panel, .output-panel {
-            height: 600px;
+            height: auto;
+            min-height: 0;
         }
         .standalone-link {
             display: none;
@@ -57,6 +70,12 @@
                 height: 400px;
             }
         }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
     </style>
 </head>
 <body>
@@ -73,8 +92,17 @@
                 <div class="language-section">
                     <label for="language-select" data-i18n="language" style="color: rgba(255,255,255,0.9);">Language</label>
                     <select id="language-select" style="margin-left: 10px;">
-                        <option value="en" data-i18n="english">English</option>
-                        <option value="zh" data-i18n="chinese">中文</option>
+                        <option value="en">English</option>
+                        <option value="zh_CN">简体中文</option>
+                        <option value="zh_TW">繁體中文</option>
+                        <option value="ko">한국어</option>
+                        <option value="ja">日本語</option>
+                        <option value="pt_BR">Português (Brasil)</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">Русский</option>
+                        <option value="es">Español</option>
+                        <option value="ar">العربية</option>
                     </select>
                 </div>
             </div>
@@ -134,50 +162,639 @@
             </div>
         </div>
 
-        <div class="editor-section">
-            <div class="input-panel">
-                <div class="panel-header">
-                    <h3 data-i18n="input">Input</h3>
-                    <div class="panel-buttons">
-                        <button type="button" id="clear-input" class="btn btn-sm" data-i18n="clear">Clear</button>
-                        <button type="button" id="format-input" class="btn btn-sm" data-i18n="format">Format</button>
-                        <button type="button" id="compress-input" class="btn btn-sm" data-i18n="compress">Compress</button>
-                        <button type="button" id="escape-input" class="btn btn-sm" data-i18n="escape">Escape</button>
-                        <button type="button" id="unescape-input" class="btn btn-sm" data-i18n="unescape">Unescape</button>
-                        <button type="button" id="load-example" class="btn btn-sm" data-i18n="example">Example</button>
+        <div class="main-content">
+            <div class="editor-section">
+                <div class="input-panel">
+                    <div class="panel-header">
+                        <h3 data-i18n="input">Input</h3>
+                        <div class="panel-buttons">
+                            <button type="button" id="clear-input" class="btn btn-sm" data-i18n="clear">Clear</button>
+                            <button type="button" id="format-input" class="btn btn-sm" data-i18n="format">Format</button>
+                            <button type="button" id="compress-input" class="btn btn-sm" data-i18n="compress">Compress</button>
+                            <button type="button" id="escape-input" class="btn btn-sm" data-i18n="escape">Escape</button>
+                            <button type="button" id="unescape-input" class="btn btn-sm" data-i18n="unescape">Unescape</button>
+                            <button type="button" id="load-example" class="btn btn-sm" data-i18n="example">Example</button>
+                        </div>
                     </div>
+                    <div id="input-editor"></div>
                 </div>
-                <div id="input-editor"></div>
+
+                <div class="output-panel">
+                    <div class="panel-header">
+                        <h3 data-i18n="output">Output</h3>
+                        <div class="panel-buttons">
+                            <button type="button" id="copy-output" class="btn btn-sm" data-i18n="copyOutput">Copy</button>
+                            <button type="button" id="download-output" class="btn btn-sm" data-i18n="downloadOutput">Download</button>
+                            <button type="button" id="toggle-number-string" class="btn btn-sm" data-i18n="toNumbers">To Numbers</button>
+                        </div>
+                    </div>
+                    <div id="output-editor"></div>
+                </div>
             </div>
 
-            <div class="output-panel">
-                <div class="panel-header">
-                    <h3 data-i18n="output">Output</h3>
-                    <div class="panel-buttons">
-                        <button type="button" id="copy-output" class="btn btn-sm" data-i18n="copy">Copy</button>
-                        <button type="button" id="download-output" class="btn btn-sm" data-i18n="download">Download</button>
-                        <button type="button" id="numbers-to-strings" class="btn btn-sm" data-i18n="numToStr">Num→Str</button>
-                        <button type="button" id="strings-to-numbers" class="btn btn-sm" data-i18n="strToNum">Str→Num</button>
-                    </div>
-                </div>
-                <div id="output-editor"></div>
+            <div class="error-section" id="error-section" style="display: none;">
+                <div class="error-message" id="error-message"></div>
             </div>
-        </div>
-
-        <div class="error-section" id="error-section" style="display: none;">
-            <div class="error-message" id="error-message"></div>
         </div>
 
         <footer>
-            <p data-i18n="footerText">© 2025 JSON Format Converter. Built with ❤️ for developers.</p>
+            <p>© 2025 JSON Format Converter. <a href="https://github.com/idev-sig/json-format-converter" target="_blank">GitHub</a></p>
         </footer>
     </div>
 
     <script src="../lib/codemirror.min.js"></script>
     <script src="../lib/javascript.min.js"></script>
     <script src="../lib/json5.min.js"></script>
-    <script src="../js/i18n.js"></script>
+    <script src="../js/i18n-loader.js"></script>
     <script src="../js/converter.js"></script>
-    <script src="../js/popup.js"></script>
+    <script>
+        // Initialize i18n for standalone version
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (window.i18nLoader) {
+                await window.i18nLoader.loadTranslations();
+                window.i18n = window.i18nLoader;
+                window.i18n.updateUI();
+            }
+            
+            // Initialize the converter app
+            initializeApp();
+        });
+        
+        function initializeApp() {
+            const converter = new JSONConverter();
+
+            // DOM elements
+            const inputFormat = document.getElementById('input-format');
+            const outputFormat = document.getElementById('output-format');
+            const errorSection = document.getElementById('error-section');
+            const errorMessage = document.getElementById('error-message');
+
+            // Initialize CodeMirror editors
+            const inputEditor = CodeMirror(document.getElementById('input-editor'), {
+                mode: 'javascript',
+                theme: 'default',
+                lineNumbers: true,
+                lineWrapping: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                indentUnit: 4,
+                tabSize: 4,
+                placeholder: 'Paste your JSON, JSONC, or JSON5 here...'
+            });
+
+            const outputEditor = CodeMirror(document.getElementById('output-editor'), {
+                mode: 'javascript',
+                theme: 'default',
+                lineNumbers: true,
+                lineWrapping: true,
+                readOnly: true,
+                indentUnit: 4,
+                tabSize: 4,
+                placeholder: 'Converted output will appear here...'
+            });
+            
+            // Buttons
+            const clearInputBtn = document.getElementById('clear-input');
+            const formatInputBtn = document.getElementById('format-input');
+            const compressInputBtn = document.getElementById('compress-input');
+            const escapeInputBtn = document.getElementById('unescape-input');
+            const unescapeInputBtn = document.getElementById('escape-input');
+            const loadExampleBtn = document.getElementById('load-example');
+            const copyOutputBtn = document.getElementById('copy-output');
+            const downloadOutputBtn = document.getElementById('download-output');
+            const toggleNumberStringBtn = document.getElementById('toggle-number-string');
+
+            // Button state management
+            function setButtonActive(button, duration = 1000) {
+                if (!button) return;
+
+                // Remove active state from all buttons in the same panel
+                const panel = button.closest('.panel-buttons');
+                if (panel) {
+                    panel.querySelectorAll('.btn').forEach(btn => {
+                        btn.classList.remove('btn-active', 'btn-success');
+                    });
+                }
+
+                // Add active state to clicked button
+                button.classList.add('btn-active');
+
+                // Remove active state after duration
+                setTimeout(() => {
+                    if (button.classList.contains('btn-active')) {
+                        button.classList.remove('btn-active');
+                        button.classList.add('btn-success');
+
+                        // Remove success state after another duration
+                        setTimeout(() => {
+                            button.classList.remove('btn-success');
+                        }, duration / 2);
+                    }
+                }, duration / 2);
+            }
+
+            // Options
+            const minifyOutput = document.getElementById('minify-output');
+            const sortKeys = document.getElementById('sort-keys');
+            const sortOrder = document.getElementById('sort-order');
+            const deepSort = document.getElementById('deep-sort');
+            const indentSize = document.getElementById('indent-size');
+
+            // Language selector
+            const languageSelect = document.getElementById('language-select');
+
+            // Auto-convert on input change
+            let convertTimeout;
+            function autoConvert() {
+                clearTimeout(convertTimeout);
+                convertTimeout = setTimeout(() => {
+                    const inputValue = inputEditor.getValue().trim();
+                    if (inputValue) {
+                        performConversion();
+                    } else {
+                        outputEditor.setValue('');
+                        hideError();
+                    }
+                }, 500);
+            }
+
+            // Perform conversion
+            function performConversion() {
+                const input = inputEditor.getValue();
+                const inputFmt = inputFormat.value;
+                const outputFmt = outputFormat.value;
+
+                if (!input.trim()) {
+                    outputEditor.setValue('');
+                    hideError();
+                    return;
+                }
+
+                const options = {
+                    minify: minifyOutput.checked,
+                    sortKeys: sortKeys.checked,
+                    sortOrder: sortOrder.value,
+                    deepSort: deepSort.checked,
+                    indentSize: indentSize.value
+                };
+
+                const result = converter.convert(input, inputFmt, outputFmt, options);
+
+                if (result.success) {
+                    outputEditor.setValue(result.result);
+                    hideError();
+                } else {
+                    showError(result.error);
+                    outputEditor.setValue('');
+                }
+            }
+
+            // Format input
+            function formatInput() {
+                const input = inputEditor.getValue();
+                const inputFmt = inputFormat.value;
+
+                if (!input.trim()) {
+                    return;
+                }
+
+                const options = {
+                    minify: false, // Always prettify when formatting
+                    sortKeys: sortKeys.checked,
+                    sortOrder: sortOrder.value,
+                    deepSort: deepSort.checked,
+                    indentSize: indentSize.value
+                };
+
+                const result = converter.format(input, inputFmt, options);
+
+                if (result.success) {
+                    inputEditor.setValue(result.result);
+                    hideError();
+                    setButtonActive(formatInputBtn);
+                    // Trigger conversion after formatting
+                    performConversion();
+                } else {
+                    showError(result.error);
+                }
+            }
+
+            // Compress input
+            function compressInput() {
+                const input = inputEditor.getValue();
+                const inputFmt = inputFormat.value;
+
+                if (!input.trim()) {
+                    showError(window.i18n.t('inputEmpty'));
+                    return;
+                }
+
+                const result = converter.compress(input, inputFmt);
+
+                if (result.success) {
+                    inputEditor.setValue(result.result);
+                    hideError();
+                    setButtonActive(compressInputBtn);
+                    // Don't auto-convert after compression, just update the input
+                } else {
+                    showError(result.error);
+                }
+            }
+
+            // Escape input
+            function escapeInput() {
+                const input = inputEditor.getValue();
+
+                if (!input.trim()) {
+                    showError(window.i18n.t('inputEmpty'));
+                    return;
+                }
+
+                const result = converter.escapeJson(input);
+
+                if (result.success) {
+                    inputEditor.setValue(result.result);
+                    hideError();
+                    setButtonActive(escapeInputBtn);
+                    // Don't auto-convert after escaping, as it's now a string
+                } else {
+                    showError(result.error);
+                }
+            }
+
+            // Unescape input
+            function unescapeInput() {
+                const input = inputEditor.getValue();
+
+                if (!input.trim()) {
+                    showError(window.i18n.t('inputEmpty'));
+                    return;
+                }
+
+                const result = converter.unescapeJson(input);
+
+                if (result.success) {
+                    inputEditor.setValue(result.result);
+                    hideError();
+                    setButtonActive(unescapeInputBtn);
+                    // Trigger conversion after unescaping since we now have valid JSON
+                    setTimeout(performConversion, 100);
+                } else {
+                    showError(result.error);
+                }
+            }
+
+            // Toggle between numbers and strings conversion
+            let isNumberMode = true; // true = convert to numbers, false = convert to strings
+
+            function toggleNumberStringConversion() {
+                const input = inputEditor.getValue();
+                const inputFmt = inputFormat.value;
+                const outputFmt = outputFormat.value;
+
+                if (!input.trim()) {
+                    return;
+                }
+
+                let result;
+
+                if (isNumberMode) {
+                    // Convert strings to numbers
+                    result = converter.stringsToNumbers(input, inputFmt, outputFmt);
+                } else {
+                    // Convert numbers to strings
+                    result = converter.numbersToStrings(input, inputFmt, outputFmt);
+                }
+
+                if (result.success) {
+                    outputEditor.setValue(result.result);
+                    hideError();
+                    setButtonActive(toggleNumberStringBtn);
+
+                    // Toggle mode and update button text
+                    isNumberMode = !isNumberMode;
+                    updateToggleButtonText();
+                } else {
+                    showError(result.error);
+                }
+            }
+
+            // Update toggle button text based on current mode
+            function updateToggleButtonText() {
+                if (toggleNumberStringBtn) {
+                    if (isNumberMode) {
+                        toggleNumberStringBtn.textContent = window.i18n.t('toNumbers');
+                        toggleNumberStringBtn.setAttribute('data-i18n', 'toNumbers');
+                    } else {
+                        toggleNumberStringBtn.textContent = window.i18n.t('toStrings');
+                        toggleNumberStringBtn.setAttribute('data-i18n', 'toStrings');
+                    }
+                }
+            }
+
+            // Show error message
+            function showError(message) {
+                errorMessage.textContent = `❌ ${message}`;
+                errorSection.style.display = 'block';
+                // Auto-hide error after 5 seconds
+                setTimeout(hideError, 5000);
+            }
+
+            // Hide error message
+            function hideError() {
+                errorSection.style.display = 'none';
+            }
+
+            // Copy to clipboard
+            async function copyToClipboard() {
+                const outputValue = outputEditor.getValue();
+                if (!outputValue) {
+                    return;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(outputValue);
+                    setButtonActive(copyOutputBtn);
+                    showSuccessMessage(window.i18n.t('copied'));
+                } catch (err) {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = outputValue;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    setButtonActive(copyOutputBtn);
+                    showSuccessMessage(window.i18n.t('copied'));
+                }
+            }
+
+            // Download as file
+            function downloadOutput() {
+                const outputValue = outputEditor.getValue();
+                if (!outputValue) {
+                    return;
+                }
+
+                const outputFmt = outputFormat.value;
+                const filename = `converted.${outputFmt}`;
+                const blob = new Blob([outputValue], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                setButtonActive(downloadOutputBtn);
+                showSuccessMessage(window.i18n.t('downloaded'));
+            }
+
+            // Show success message
+            function showSuccessMessage(message) {
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success-message';
+                successDiv.textContent = message;
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => {
+                    if (successDiv.parentNode) {
+                        successDiv.parentNode.removeChild(successDiv);
+                    }
+                }, 3000);
+            }
+
+            // Event listeners
+            inputEditor.on('change', autoConvert);
+            inputFormat.addEventListener('change', autoConvert);
+            outputFormat.addEventListener('change', autoConvert);
+            minifyOutput.addEventListener('change', autoConvert);
+            sortKeys.addEventListener('change', autoConvert);
+            sortOrder.addEventListener('change', autoConvert);
+            deepSort.addEventListener('change', autoConvert);
+            indentSize.addEventListener('change', autoConvert);
+
+            // Language selector
+            if (languageSelect) {
+                languageSelect.addEventListener('change', (e) => {
+                    console.log('Language selector changed to:', e.target.value);
+
+                    // Allow manual language switching in both environments
+                    if (window.i18n && window.i18n.setLanguage) {
+                        window.i18n.setLanguage(e.target.value);
+                    } else {
+                        console.warn('i18n.setLanguage not available');
+                    }
+                });
+
+                // Set initial language selector value
+                setTimeout(() => {
+                    if (window.i18n && window.i18n.getCurrentLanguage) {
+                        languageSelect.value = window.i18n.getCurrentLanguage();
+                    }
+                }, 100);
+            }
+
+            clearInputBtn.addEventListener('click', () => {
+                inputEditor.setValue('');
+                outputEditor.setValue('');
+                hideError();
+                setButtonActive(clearInputBtn);
+            });
+
+            // Bind button events with existence checks
+            if (formatInputBtn) {
+                formatInputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    formatInput();
+                });
+            }
+
+            if (compressInputBtn) {
+                compressInputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    compressInput();
+                });
+            }
+
+            if (escapeInputBtn) {
+                escapeInputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    escapeInput();
+                });
+            }
+
+            if (unescapeInputBtn) {
+                unescapeInputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    unescapeInput();
+                });
+            }
+
+            if (copyOutputBtn) {
+                copyOutputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    copyToClipboard();
+                });
+            }
+
+            if (downloadOutputBtn) {
+                downloadOutputBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    downloadOutput();
+                });
+            }
+
+            if (toggleNumberStringBtn) {
+                toggleNumberStringBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleNumberStringConversion();
+                });
+
+                // Initialize button text
+                updateToggleButtonText();
+            }
+
+            // Add load example button handler if it exists
+            if (loadExampleBtn) {
+                loadExampleBtn.addEventListener('click', () => {
+                    loadSampleData();
+                    setButtonActive(loadExampleBtn);
+                });
+            }
+
+            // Load sample data for demonstration
+            function loadSampleData() {
+                let sampleData;
+
+                // Check if getSampleData method exists (for standalone version with full i18n)
+                if (window.i18n && typeof window.i18n.getSampleData === 'function') {
+                    sampleData = window.i18n.getSampleData();
+                } else {
+                    // Fallback sample data for Chrome extension or when i18n is not fully loaded
+                    sampleData = {
+                        json5: `{
+    // Configuration file
+    name: "JSON Format Converter",
+    version: "1.0.0",
+    port: 8080,
+    timeout: 30000,
+    features: {
+        conversion: true,
+        validation: true,
+        formatting: true,
+    },
+    /* Multi-line comment
+       describing the settings */
+    settings: {
+        theme: "light",
+        language: "auto",
+        maxFileSize: 1048576,
+        retryCount: 3
+    },
+}`,
+                        jsonc: `{
+    // Configuration file
+    "name": "JSON Format Converter",
+    "version": "1.0.0",
+    "port": 8080,
+    "timeout": 30000,
+    "features": {
+        "conversion": true,
+        "validation": true,
+        "formatting": true
+    },
+    /* Multi-line comment
+       describing the settings */
+    "settings": {
+        "theme": "light",
+        "language": "auto",
+        "maxFileSize": 1048576,
+        "retryCount": 3
+    }
+}`,
+                        json: `{
+  "name": "JSON Format Converter",
+  "version": "1.0.0",
+  "port": 8080,
+  "timeout": 30000,
+  "features": {
+    "conversion": true,
+    "validation": true,
+    "formatting": true
+  },
+  "settings": {
+    "theme": "light",
+    "language": "auto",
+    "maxFileSize": 1048576,
+    "retryCount": 3
+  }
+}`
+                    };
+                }
+
+                // Get current input format and use corresponding sample
+                const currentFormat = inputFormat.value;
+                let sample;
+
+                if (currentFormat === 'json5') {
+                    sample = sampleData.json5;
+                } else if (currentFormat === 'jsonc') {
+                    sample = sampleData.jsonc;
+                } else if (currentFormat === 'json') {
+                    sample = sampleData.json;
+                } else {
+                    // Auto-detect or fallback to JSON5
+                    sample = sampleData.json5;
+                }
+
+                inputEditor.setValue(sample);
+                performConversion();
+            }
+
+            // Make loadSampleData available globally for i18n
+            window.loadSampleData = loadSampleData;
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + Enter: Format input
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    formatInput();
+                }
+                // Ctrl/Cmd + Shift + C: Copy output
+                else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    copyToClipboard();
+                }
+                // Ctrl/Cmd + Shift + D: Download output
+                else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+                    e.preventDefault();
+                    downloadOutput();
+                }
+                // Escape: Clear input
+                else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    inputEditor.setValue('');
+                    outputEditor.setValue('');
+                    hideError();
+                }
+            });
+
+            // Focus on input
+            inputEditor.focus();
+        }
+    </script>
 </body>
 </html>

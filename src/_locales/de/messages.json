@@ -1,0 +1,234 @@
+{
+  "appName": {
+    "message": "JSON-Format-Konverter",
+    "description": "Name der Anwendung"
+  },
+  "appDescription": {
+    "message": "Leistungsstarker JSON/JSONC/JSON5-Editor und -Konverter mit Syntaxhervorhebung.",
+    "description": "Beschreibung der Anwendung"
+  },
+  "title": {
+    "message": "JSON-Format-Konverter",
+    "description": "Haupttitel"
+  },
+  "subtitle": {
+    "message": "Zwischen JSON-, JSONC- und JSON5-Formaten konvertieren",
+    "description": "Untertitel-Beschreibung"
+  },
+  "language": {
+    "message": "Sprache",
+    "description": "Sprachauswahl-Label"
+  },
+  "inputFormat": {
+    "message": "Eingabeformat",
+    "description": "Eingabeformat-Auswahl-Label"
+  },
+  "outputFormat": {
+    "message": "Ausgabeformat",
+    "description": "Ausgabeformat-Auswahl-Label"
+  },
+  "inputPanel": {
+    "message": "Eingabe",
+    "description": "Eingabepanel-Titel"
+  },
+  "outputPanel": {
+    "message": "Ausgabe",
+    "description": "Ausgabepanel-Titel"
+  },
+  "convert": {
+    "message": "Konvertieren",
+    "description": "Konvertieren-Button"
+  },
+  "format": {
+    "message": "Formatieren",
+    "description": "Formatieren-Button"
+  },
+  "compress": {
+    "message": "Komprimieren",
+    "description": "Komprimieren-Button"
+  },
+  "escape": {
+    "message": "Escapen",
+    "description": "Escape-Button"
+  },
+  "unescape": {
+    "message": "Unescapen",
+    "description": "Unescape-Button"
+  },
+  "toNumbers": {
+    "message": "Zu Zahlen",
+    "description": "In-Zahlen-konvertieren-Button"
+  },
+  "toStrings": {
+    "message": "Zu Strings",
+    "description": "In-Strings-konvertieren-Button"
+  },
+  "sortAZ": {
+    "message": "Sortieren A-Z",
+    "description": "A-Z-sortieren-Button"
+  },
+  "sortZA": {
+    "message": "Sortieren Z-A",
+    "description": "Z-A-sortieren-Button"
+  },
+  "copyInput": {
+    "message": "Eingabe kopieren",
+    "description": "Eingabe-kopieren-Button"
+  },
+  "copyOutput": {
+    "message": "Ausgabe kopieren",
+    "description": "Ausgabe-kopieren-Button"
+  },
+  "clearInput": {
+    "message": "Eingabe löschen",
+    "description": "Eingabe-löschen-Button"
+  },
+  "clearOutput": {
+    "message": "Ausgabe löschen",
+    "description": "Ausgabe-löschen-Button"
+  },
+  "downloadOutput": {
+    "message": "Herunterladen",
+    "description": "Ausgabe-herunterladen-Button"
+  },
+  "help": {
+    "message": "Hilfe",
+    "description": "Hilfe-Button"
+  },
+  "helpLink": {
+    "message": "📖 Hilfe & Tastenkombinationen",
+    "description": "Hilfe-Link in der Kopfzeile"
+  },
+  "copied": {
+    "message": "In die Zwischenablage kopiert!",
+    "description": "Erfolgsmeldung beim Kopieren von Inhalten"
+  },
+  "cleared": {
+    "message": "Inhalt gelöscht!",
+    "description": "Erfolgsmeldung beim Löschen von Inhalten"
+  },
+  "downloaded": {
+    "message": "Datei heruntergeladen!",
+    "description": "Erfolgsmeldung beim Herunterladen einer Datei"
+  },
+  "invalidJson": {
+    "message": "Ungültiges JSON-Format",
+    "description": "Fehlermeldung für ungültiges JSON"
+  },
+  "conversionError": {
+    "message": "Konvertierungsfehler",
+    "description": "Allgemeine Konvertierungsfehlermeldung"
+  },
+  "noContent": {
+    "message": "Kein Inhalt zu verarbeiten",
+    "description": "Fehlermeldung bei fehlendem Inhalt"
+  },
+  "inputEmpty": {
+    "message": "Input is empty",
+    "description": "Error message when input is empty"
+  },
+  "processingError": {
+    "message": "Verarbeitungsfehler aufgetreten",
+    "description": "Allgemeine Verarbeitungsfehlermeldung"
+  },
+  "formatJson": {
+    "message": "JSON",
+    "description": "JSON-Format-Option"
+  },
+  "formatJsonc": {
+    "message": "JSONC",
+    "description": "JSONC-Format-Option"
+  },
+  "formatJson5": {
+    "message": "JSON5",
+    "description": "JSON5-Format-Option"
+  },
+  "autoDetect": {
+    "message": "Automatische Erkennung",
+    "description": "Automatische Format-Erkennungsoption"
+  },
+  "aboutTitle": {
+    "message": "Über JSON-Format-Konverter",
+    "description": "Über-Dialog-Titel"
+  },
+  "aboutDescription": {
+    "message": "Ein leistungsstarkes Tool zum Konvertieren zwischen JSON-, JSONC- und JSON5-Formaten mit erweiterten Bearbeitungsfunktionen und Kommentarerhaltung.",
+    "description": "Über-Dialog-Beschreibung"
+  },
+  "version": {
+    "message": "Version",
+    "description": "Versionsbezeichnung"
+  },
+  "developer": {
+    "message": "Entwickler",
+    "description": "Entwicklerbezeichnung"
+  },
+  "license": {
+    "message": "Lizenz",
+    "description": "Lizenzbezeichnung"
+  },
+  "github": {
+    "message": "GitHub",
+    "description": "GitHub-Link-Bezeichnung"
+  },
+  "close": {
+    "message": "Schließen",
+    "description": "Schließen-Button"
+  },
+  "clear": {
+    "message": "Löschen",
+    "description": "Löschen-Button/Label"
+  },
+  "example": {
+    "message": "Beispiel",
+    "description": "Beispiel-Button/Label"
+  },
+  "minify": {
+    "message": "Minimieren",
+    "description": "Minimieren-Button/Label"
+  },
+  "sortKeys": {
+    "message": "Schlüssel sortieren",
+    "description": "Schlüssel-sortieren-Button/Label"
+  },
+  "order": {
+    "message": "Reihenfolge",
+    "description": "Reihenfolge-Button/Label"
+  },
+  "orderAsc": {
+    "message": "A-Z",
+    "description": "Aufsteigend-sortieren-Button/Label"
+  },
+  "orderDesc": {
+    "message": "Z-A",
+    "description": "Absteigend-sortieren-Button/Label"
+  },
+  "deepSort": {
+    "message": "Tiefe Sortierung",
+    "description": "Tiefe-Sortierung-Button/Label"
+  },
+  "indent": {
+    "message": "Einrückung",
+    "description": "Einrückung-Button/Label"
+  },
+  "indent2": {
+    "message": "2",
+    "description": "2-Zeichen-Einrückung-Button/Label"
+  },
+  "indent4": {
+    "message": "4",
+    "description": "4-Zeichen-Einrückung-Button/Label"
+  },
+  "indentTab": {
+    "message": "Tab",
+    "description": "Tab-Einrückung-Button/Label"
+  },
+  "input": {
+    "message": "Eingabe",
+    "description": "Eingabe-Button/Label"
+  },
+  "output": {
+    "message": "Ausgabe",
+    "description": "Ausgabe-Button/Label"
+  }
+}

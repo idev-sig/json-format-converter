@@ -1,0 +1,234 @@
+{
+  "appName": {
+    "message": "Convertisseur de Format JSON",
+    "description": "Nom de l'application"
+  },
+  "appDescription": {
+    "message": "Éditeur et convertisseur JSON/JSONC/JSON5 puissant avec coloration syntaxique.",
+    "description": "Description de l'application"
+  },
+  "title": {
+    "message": "Convertisseur de Format JSON",
+    "description": "Titre principal"
+  },
+  "subtitle": {
+    "message": "Convertir entre les formats JSON, JSONC et JSON5",
+    "description": "Description du sous-titre"
+  },
+  "language": {
+    "message": "Langue",
+    "description": "Libellé du sélecteur de langue"
+  },
+  "inputFormat": {
+    "message": "Format d'Entrée",
+    "description": "Libellé du sélecteur de format d'entrée"
+  },
+  "outputFormat": {
+    "message": "Format de Sortie",
+    "description": "Libellé du sélecteur de format de sortie"
+  },
+  "inputPanel": {
+    "message": "Entrée",
+    "description": "Titre du panneau d'entrée"
+  },
+  "outputPanel": {
+    "message": "Sortie",
+    "description": "Titre du panneau de sortie"
+  },
+  "convert": {
+    "message": "Convertir",
+    "description": "Bouton convertir"
+  },
+  "format": {
+    "message": "Formater",
+    "description": "Bouton formater"
+  },
+  "compress": {
+    "message": "Compresser",
+    "description": "Bouton compresser"
+  },
+  "escape": {
+    "message": "Échapper",
+    "description": "Bouton échapper"
+  },
+  "unescape": {
+    "message": "Déséchapper",
+    "description": "Bouton déséchapper"
+  },
+  "toNumbers": {
+    "message": "En Nombres",
+    "description": "Bouton convertir en nombres"
+  },
+  "toStrings": {
+    "message": "En Chaînes",
+    "description": "Bouton convertir en chaînes"
+  },
+  "sortAZ": {
+    "message": "Trier A-Z",
+    "description": "Bouton trier de A à Z"
+  },
+  "sortZA": {
+    "message": "Trier Z-A",
+    "description": "Bouton trier de Z à A"
+  },
+  "copyInput": {
+    "message": "Copier Entrée",
+    "description": "Bouton copier entrée"
+  },
+  "copyOutput": {
+    "message": "Copier Sortie",
+    "description": "Bouton copier sortie"
+  },
+  "clearInput": {
+    "message": "Effacer Entrée",
+    "description": "Bouton effacer entrée"
+  },
+  "clearOutput": {
+    "message": "Effacer Sortie",
+    "description": "Bouton effacer sortie"
+  },
+  "downloadOutput": {
+    "message": "Télécharger",
+    "description": "Bouton télécharger sortie"
+  },
+  "help": {
+    "message": "Aide",
+    "description": "Bouton aide"
+  },
+  "helpLink": {
+    "message": "📖 Aide et Raccourcis",
+    "description": "Lien d'aide dans l'en-tête"
+  },
+  "copied": {
+    "message": "Copié dans le presse-papiers !",
+    "description": "Message de succès lors de la copie du contenu"
+  },
+  "cleared": {
+    "message": "Contenu effacé !",
+    "description": "Message de succès lors de l'effacement du contenu"
+  },
+  "downloaded": {
+    "message": "Fichier téléchargé !",
+    "description": "Message de succès lors du téléchargement du fichier"
+  },
+  "invalidJson": {
+    "message": "Format JSON invalide",
+    "description": "Message d'erreur pour JSON invalide"
+  },
+  "conversionError": {
+    "message": "Erreur de conversion",
+    "description": "Message d'erreur de conversion générique"
+  },
+  "noContent": {
+    "message": "Aucun contenu à traiter",
+    "description": "Message d'erreur quand il n'y a pas de contenu"
+  },
+  "inputEmpty": {
+    "message": "Input is empty",
+    "description": "Error message when input is empty"
+  },
+  "processingError": {
+    "message": "Une erreur de traitement s'est produite",
+    "description": "Message d'erreur de traitement générique"
+  },
+  "formatJson": {
+    "message": "JSON",
+    "description": "Option de format JSON"
+  },
+  "formatJsonc": {
+    "message": "JSONC",
+    "description": "Option de format JSONC"
+  },
+  "formatJson5": {
+    "message": "JSON5",
+    "description": "Option de format JSON5"
+  },
+  "autoDetect": {
+    "message": "Détection Automatique",
+    "description": "Option de détection automatique du format"
+  },
+  "aboutTitle": {
+    "message": "À propos du Convertisseur de Format JSON",
+    "description": "Titre de la boîte de dialogue À propos"
+  },
+  "aboutDescription": {
+    "message": "Un outil puissant pour convertir entre les formats JSON, JSONC et JSON5 avec des fonctionnalités d'édition avancées et la préservation des commentaires.",
+    "description": "Description de la boîte de dialogue À propos"
+  },
+  "version": {
+    "message": "Version",
+    "description": "Libellé de version"
+  },
+  "developer": {
+    "message": "Développeur",
+    "description": "Libellé de développeur"
+  },
+  "license": {
+    "message": "Licence",
+    "description": "Libellé de licence"
+  },
+  "github": {
+    "message": "GitHub",
+    "description": "Libellé du lien GitHub"
+  },
+  "close": {
+    "message": "Fermer",
+    "description": "Bouton fermer"
+  },
+  "clear": {
+    "message": "Effacer",
+    "description": "Bouton/libellé effacer"
+  },
+  "example": {
+    "message": "Exemple",
+    "description": "Bouton/libellé exemple"
+  },
+  "minify": {
+    "message": "Minimiser",
+    "description": "Bouton/libellé minimiser"
+  },
+  "sortKeys": {
+    "message": "Trier les Clés",
+    "description": "Bouton/libellé trier les clés"
+  },
+  "order": {
+    "message": "Ordre",
+    "description": "Bouton/libellé ordre"
+  },
+  "orderAsc": {
+    "message": "A-Z",
+    "description": "Bouton/libellé ordre croissant"
+  },
+  "orderDesc": {
+    "message": "Z-A",
+    "description": "Bouton/libellé ordre décroissant"
+  },
+  "deepSort": {
+    "message": "Tri Profond",
+    "description": "Bouton/libellé tri profond"
+  },
+  "indent": {
+    "message": "Indentation",
+    "description": "Bouton/libellé indentation"
+  },
+  "indent2": {
+    "message": "2",
+    "description": "Bouton/libellé indentation de 2"
+  },
+  "indent4": {
+    "message": "4",
+    "description": "Bouton/libellé indentation de 4"
+  },
+  "indentTab": {
+    "message": "Tab",
+    "description": "Bouton/libellé indentation avec tabulation"
+  },
+  "input": {
+    "message": "Entrée",
+    "description": "Bouton/libellé entrée"
+  },
+  "output": {
+    "message": "Sortie",
+    "description": "Bouton/libellé sortie"
+  }
+}

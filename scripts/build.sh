@@ -46,6 +46,7 @@ sed -i 's|../js/|js/|g' $BUILD_DIR/extension/popup.html
 # Copy assets
 cp -r $SRC_DIR/lib $BUILD_DIR/extension/
 cp -r $SRC_DIR/icons $BUILD_DIR/extension/
+cp -r $SRC_DIR/_locales $BUILD_DIR/extension/
 mkdir -p $BUILD_DIR/extension/css $BUILD_DIR/extension/js
 cp $SRC_DIR/css/styles.css $BUILD_DIR/extension/css/
 cp $SRC_DIR/js/*.js $BUILD_DIR/extension/js/
@@ -71,6 +72,7 @@ sed -i 's|../js/|js/|g' $BUILD_DIR/standalone/index.html
 # Copy assets
 cp -r $SRC_DIR/lib $BUILD_DIR/standalone/
 cp -r $SRC_DIR/icons $BUILD_DIR/standalone/
+cp -r $SRC_DIR/_locales $BUILD_DIR/standalone/
 mkdir -p $BUILD_DIR/standalone/css $BUILD_DIR/standalone/js
 cp $SRC_DIR/css/styles.css $BUILD_DIR/standalone/css/
 cp $SRC_DIR/js/*.js $BUILD_DIR/standalone/js/
