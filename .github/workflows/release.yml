@@ -13,11 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
     - name: Setup Just
       uses: extractions/setup-just@v3
 
@@ -56,6 +51,9 @@ jobs:
         echo "### 📦 Installation" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
         echo "#### Chrome Extension" >> $GITHUB_OUTPUT
+        echo "**🌟 Recommended**: [Install from Chrome Web Store](https://chromewebstore.google.com/detail/${{ vars.CHROME_EXTENSION_ID }})" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "**Manual Installation**:" >> $GITHUB_OUTPUT
         echo "1. Download \`json-format-converter-extension-v${{ steps.get_version.outputs.VERSION }}.zip\`" >> $GITHUB_OUTPUT
         echo "2. Extract the ZIP file" >> $GITHUB_OUTPUT
         echo "3. Open Chrome and navigate to \`chrome://extensions/\`" >> $GITHUB_OUTPUT
@@ -63,11 +61,14 @@ jobs:
         echo "5. Click \"Load unpacked\" and select the extracted folder" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
         echo "#### Standalone Web App" >> $GITHUB_OUTPUT
+        echo "**🌟 Online**: [https://idev-sig.github.io/json-format-converter/](https://idev-sig.github.io/json-format-converter/)" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "**Download**:" >> $GITHUB_OUTPUT
         echo "1. Download \`json-format-converter-standalone-v${{ steps.get_version.outputs.VERSION }}.zip\`" >> $GITHUB_OUTPUT
         echo "2. Extract to your web server or open \`index.html\` locally" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
         echo "### 🔧 Technical Information" >> $GITHUB_OUTPUT
-        echo "- Python: 3.x" >> $GITHUB_OUTPUT
+        echo "- Extension ID: \`${{ vars.CHROME_EXTENSION_ID }}\`" >> $GITHUB_OUTPUT
         echo "- Manifest Version: 3" >> $GITHUB_OUTPUT
         echo "- Build Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
         echo "- License: Apache 2.0" >> $GITHUB_OUTPUT
@@ -111,14 +112,14 @@ jobs:
 
     # Optional: Publish to Chrome Web Store (requires setup of secrets)
     # Uncomment and configure the following steps if you want to auto-publish to Chrome Web Store
-    # - name: Publish to Chrome Web Store
-    #   uses: puzzlers-labs/chrome-webstore-publish@v1
-    #   with:
-    #     mode: publish
-    #     extension_id: ${{ vars.CHROME_EXTENSION_ID }}
-    #     zip_file_path: ./json-format-converter-extension.zip
-    #     client_id: ${{ secrets.GOOGLE_CLIENT_ID }}
-    #     client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-    #     refresh_token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-    #     publish_target: public
-    #     expedited_review: true
+    - name: Publish to Chrome Web Store
+      uses: puzzlers-labs/chrome-webstore-publish@v1
+      with:
+        mode: publish
+        extension_id: ${{ vars.CHROME_EXTENSION_ID }}
+        zip_file_path: ./json-format-converter-extension.zip
+        client_id: ${{ secrets.GOOGLE_CLIENT_ID }}
+        client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        refresh_token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        publish_target: public
+        expedited_review: true

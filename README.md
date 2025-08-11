@@ -2,11 +2,29 @@
 
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/idev-sig/json-format-converter)
 [![License](https://img.shields.io/badge/license-Apache_2.0-green.svg)](LICENSE)
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-orange.svg)](https://chrome.google.com/webstore)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-orange.svg)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
 
 **[English](README.md) | [中文](README_zh.md)**
 
 A powerful Chrome extension and standalone web application for converting between JSON, JSONC (JSON with Comments), and JSON5 formats with advanced editing features and comment preservation.
+
+## 🚀 Quick Start
+
+### Chrome Extension
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+**Install from Chrome Web Store**: [JSON Format Converter](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+1. Click the link above or visit the Chrome Web Store
+2. Click "Add to Chrome"
+3. Click the extension icon in your toolbar to start converting
+
+### Online Web App
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Try%20Now-green?logo=github)](https://idev-sig.github.io/json-format-converter/)
+
+**Try Online**: [https://idev-sig.github.io/json-format-converter/](https://idev-sig.github.io/json-format-converter/)
+
+No installation required - use directly in your browser!
 
 ## Features
 

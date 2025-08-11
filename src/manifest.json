@@ -2,9 +2,7 @@
   "manifest_version": 3,
   "name": "JSON Format Converter",
   "version": "0.1.0",
-  "description": "Professional JSON, JSONC, and JSON5 converter with advanced editing features, comment preservation, and multi-language support",
-  "author": "Jetsung Chan",
-  "homepage_url": "https://github.com/idev-sig/json-format-converter",
+  "description": "Powerful JSON/JSONC/JSON5 editor and converter with syntax highlighting.",
   "permissions": [
     "tabs"
   ],

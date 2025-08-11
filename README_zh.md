@@ -2,11 +2,29 @@
 
 [![版本](https://img.shields.io/badge/版本-0.1.0-blue.svg)](https://github.com/idev-sig/json-format-converter)
 [![许可证](https://img.shields.io/badge/许可证-Apache_2.0-green.svg)](LICENSE)
-[![Chrome扩展](https://img.shields.io/badge/Chrome-扩展-orange.svg)](https://chrome.google.com/webstore)
+[![Chrome扩展](https://img.shields.io/badge/Chrome-扩展-orange.svg)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
 
 **[English](README.md) | [中文](README_zh.md)**
 
 一个功能强大的 Chrome 扩展和独立网页应用，用于在 JSON、JSONC（带注释的JSON）和 JSON5 格式之间进行转换，具有高级编辑功能和注释保留能力。
+
+## 🚀 快速开始
+
+### Chrome 扩展
+[![Chrome 应用商店](https://img.shields.io/badge/Chrome%20应用商店-安装-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+**从Chrome应用商店安装**: [JSON Format Converter](https://chromewebstore.google.com/detail/hmjkpcfhmideofmhbcejbpilnonoladc)
+
+1. 点击上面的链接或访问Chrome应用商店
+2. 点击"添加至Chrome"
+3. 点击工具栏中的扩展图标开始转换
+
+### 在线网页应用
+[![在线演示](https://img.shields.io/badge/在线演示-立即试用-green?logo=github)](https://idev-sig.github.io/json-format-converter/)
+
+**在线试用**: [https://idev-sig.github.io/json-format-converter/](https://idev-sig.github.io/json-format-converter/)
+
+无需安装 - 直接在浏览器中使用！
 
 ## 功能特性
 
