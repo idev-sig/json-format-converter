@@ -6,7 +6,7 @@
 module.exports = {
   // Project metadata
   name: 'JSON Format Converter',
-  version: '0.1.0',
+  version: '0.1.1',
   description: 'Convert between JSON, JSONC, and JSON5 formats',
   author: 'Jetsung Chan <i@jetsung.com>',
   repository: 'https://github.com/idev-sig/json-format-converter',
@@ -31,12 +31,25 @@ module.exports = {
   
   // Build configuration
   build: {
-    extension: {
-      name: 'json-format-converter-extension',
-      output: 'dist/extension',
+    chrome: {
+      name: 'json-format-converter-chrome',
+      output: 'dist/chrome',
       files: [
         'manifest.json',
         'popup.html',
+        'css/',
+        'js/',
+        'lib/',
+        'icons/'
+      ]
+    },
+    firefox: {
+      name: 'json-format-converter-firefox',
+      output: 'dist/firefox',
+      manifest: 'manifest.json',
+      files: [
+        'manifest.json',
+        'html/popup.html',
         'css/',
         'js/',
         'lib/',
@@ -68,7 +81,7 @@ module.exports = {
   // Supported languages
   i18n: {
     defaultLanguage: 'en',
-    supportedLanguages: ['en', 'zh'],
+    supportedLanguages: ['en', 'zh', 'zh_TW', 'ko', 'ja', 'pt_BR', 'fr', 'de', 'ru', 'es', 'ar'],
     fallbackLanguage: 'en'
   },
   

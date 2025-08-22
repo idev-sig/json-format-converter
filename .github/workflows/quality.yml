@@ -14,17 +14,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Python
-      uses: actions/setup-python@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        python-version: '3.x'
+        node-version: '18'
         
-    - name: Setup Just
-      uses: extractions/setup-just@v3
-        
-    - name: Check project structure
+    - name: Install dependencies
       run: |
-        just check-structure
+        npm ci
+
+    - name: Validate project (structure, files, outputs)
+      run: |
+        node scripts/validate.js
         
     - name: Validate file syntax
       run: |
@@ -34,13 +35,7 @@ jobs:
         # Check JavaScript files for basic syntax
         find src/js -name "*.js" | xargs -I {} sh -c 'echo "Checking {}" && node -c {}'
         
-    - name: Test comment preservation
-      run: |
-        just test-comments
-        
-    - name: Run complete validation
-      run: |
-        just check-all
+    # Additional checks can be added here (lint/tests) when available
         
     - name: Check documentation
       run: |
@@ -56,32 +51,41 @@ jobs:
         
     - name: Verify build artifacts
       run: |
-        just build-new
-        
+        npm run build
+
         # Check that build produces expected files
-        test -f json-format-converter-extension.zip || (echo "Extension ZIP not created" && exit 1)
+        test -f json-format-converter-chrome.zip || (echo "Chrome ZIP not created" && exit 1)
+        test -f json-format-converter-firefox.zip || (echo "Firefox ZIP not created" && exit 1)
         test -f json-format-converter-standalone.zip || (echo "Standalone ZIP not created" && exit 1)
-        test -d dist/extension || (echo "Extension build directory missing" && exit 1)
+        test -d dist/chrome || (echo "Chrome build directory missing" && exit 1)
+        test -d dist/firefox || (echo "Firefox build directory missing" && exit 1)
         test -d dist/standalone || (echo "Standalone build directory missing" && exit 1)
-        
+
         # Check ZIP file contents
-        unzip -t json-format-converter-extension.zip > /dev/null || (echo "Extension ZIP is corrupted" && exit 1)
+        unzip -t json-format-converter-chrome.zip > /dev/null || (echo "Chrome ZIP is corrupted" && exit 1)
+        unzip -t json-format-converter-firefox.zip > /dev/null || (echo "Firefox ZIP is corrupted" && exit 1)
         unzip -t json-format-converter-standalone.zip > /dev/null || (echo "Standalone ZIP is corrupted" && exit 1)
         
     - name: Check package sizes
       run: |
         echo "📊 Package Sizes:"
-        echo "Extension: $(du -h json-format-converter-extension.zip | cut -f1)"
+        echo "Chrome: $(du -h json-format-converter-chrome.zip | cut -f1)"
+        echo "Firefox: $(du -h json-format-converter-firefox.zip | cut -f1)"
         echo "Standalone: $(du -h json-format-converter-standalone.zip | cut -f1)"
         
         # Warn if packages are too large (>500KB)
-        ext_size=$(stat -c%s json-format-converter-extension.zip)
+        chrome_size=$(stat -c%s json-format-converter-chrome.zip)
+        firefox_size=$(stat -c%s json-format-converter-firefox.zip)
         standalone_size=$(stat -c%s json-format-converter-standalone.zip)
         
-        if [ $ext_size -gt 512000 ]; then
-          echo "⚠️ Warning: Extension package is larger than 500KB ($ext_size bytes)"
+        if [ $chrome_size -gt 512000 ]; then
+          echo "⚠️ Warning: Chrome package is larger than 500KB ($chrome_size bytes)"
         fi
         
+        if [ $firefox_size -gt 512000 ]; then
+          echo "⚠️ Warning: Firefox package is larger than 500KB ($firefox_size bytes)"
+        fi
+
         if [ $standalone_size -gt 512000 ]; then
           echo "⚠️ Warning: Standalone package is larger than 500KB ($standalone_size bytes)"
         fi

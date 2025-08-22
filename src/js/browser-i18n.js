@@ -44,7 +44,7 @@ class ChromeI18n {
 
             try {
                 // Load translation file for the selected language
-                const response = await fetch(`_locales/${lang}/messages.json`);
+                const response = await fetch(`../_locales/${lang}/messages.json`);
                 if (response.ok) {
                     const messages = await response.json();
                     this.translations[lang] = {};

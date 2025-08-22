@@ -41,6 +41,7 @@ body.popup .container {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 body.popup .main-content {
@@ -59,6 +60,39 @@ body.popup .input-panel,
 body.popup .output-panel {
     height: auto;
     min-height: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+body.popup .panel-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+body.popup .panel-buttons {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    max-width: none;
+}
+
+body.popup .panel-buttons::-webkit-scrollbar {
+    height: 4px;
+}
+
+body.popup .panel-buttons::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+body.popup .panel-buttons::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+body.popup .panel-buttons::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }
 
 /* Header */
@@ -197,13 +231,15 @@ header {
     background: white;
     display: flex;
     flex-direction: column;
-    height: 500px;
+    min-height: 0;
+    overflow: hidden;
 }
 
 #input-editor, #output-editor {
     flex: 1;
     min-height: 0;
     background: white;
+    overflow: hidden;
 }
 
 .panel-header {
@@ -213,6 +249,8 @@ header {
     padding: 15px 20px;
     background: #f8f9fa;
     border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+    min-height: 60px;
 }
 
 .panel-header h3 {
@@ -228,6 +266,8 @@ header {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
+    flex-shrink: 0;
+    max-width: 60%;
 }
 
 /* Buttons */
@@ -315,16 +355,20 @@ textarea[readonly] {
 .CodeMirror {
     height: 100%;
     min-height: 100%;
+    max-height: 100%;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 17px; /* 从15px增加到17px */
     line-height: 1.5;
     border: none;
     background: white;
+    overflow: hidden;
 }
 
 .CodeMirror-scroll {
     padding: 10px;
     min-height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .CodeMirror-gutters {
@@ -436,6 +480,17 @@ footer {
     }
 }
 
+
+body:not(.popup) .CodeMirror {
+    height: 100%;
+    max-height: 100%;
+}
+
+body:not(.popup) .CodeMirror-scroll {
+    max-height: calc(500px - 60px); /* Subtract header height */
+    overflow-y: auto;
+}
+
 /* Responsive design */
 @media (max-width: 1400px) {
     .container {
@@ -510,15 +565,28 @@ footer {
         flex-direction: column;
         gap: 10px;
         align-items: stretch;
+        min-height: auto;
     }
 
     .panel-buttons {
-        justify-content: center;
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 5px;
+    }
+
+    .panel-buttons .btn-sm {
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .options-controls {
         flex-direction: column;
         gap: 10px;
         align-items: stretch;
+    }
+
+    body.popup .panel-header {
+        position: relative;
     }
 }

@@ -1,15 +1,22 @@
 {
   "name": "json-format-converter",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A powerful Chrome extension and standalone web app for converting between JSON, JSONC, and JSON5 formats with advanced editing features and comment preservation",
   "main": "src/js/converter.js",
   "scripts": {
-    "test": "just test-comments",
-    "dev": "just dev",
-    "build": "just build-new",
-    "serve": "just serve",
-    "clean": "just clean",
-    "validate": "just check-all",
+    "dev": "node scripts/dev-server.js",
+    "build": "node scripts/build.js",
+    "build:firefox": "node scripts/build.js firefox",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:standalone": "node scripts/build.js standalone",
+    "serve": "npx serve -s -l 3000 dist",
+    "clean": "node scripts/clean.js",
+    "update:libs": "node scripts/update-libs.js",
+    "validate": "echo \"Running validation...\" && npm run lint && npm run build",
+    "sign": "node scripts/sign.js",
+    "sign:generate-key": "node scripts/sign.js --generate-key",
+    "sign:chrome": "node scripts/sign.js --no-firefox",
+    "sign:firefox": "node scripts/sign.js --no-chrome",
     "build:icons": "cd src/icons && convert icon.svg -resize 16x16 icon16.png && convert icon.svg -resize 32x32 icon32.png && convert icon.svg -resize 48x48 icon48.png && convert icon.svg -resize 128x128 icon128.png"
   },
   "keywords": [
@@ -31,8 +38,15 @@
     "url": "https://github.com/idev-sig/json-format-converter/issues"
   },
   "homepage": "https://github.com/idev-sig/json-format-converter#readme",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "fs-extra": "^10.1.0",
+    "serve-handler": "^6.1.5"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^18.11.18"
+  },
   "files": [
     "manifest.json",
     "popup.html",

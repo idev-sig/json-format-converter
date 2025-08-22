@@ -113,7 +113,7 @@ Extended JSON format that supports:
 Download the latest release from [GitHub Releases](https://github.com/idev-sig/json-format-converter/releases):
 
 #### Chrome Extension
-1. Download `json-format-converter-extension.zip`
+1. Download `json-format-converter-chrome.zip`
 2. Extract the ZIP file
 3. Open Chrome and navigate to `chrome://extensions/`
 4. Enable "Developer mode" in the top right
@@ -133,13 +133,17 @@ Download the latest release from [GitHub Releases](https://github.com/idev-sig/j
 git clone https://github.com/idev-sig/json-format-converter.git
 cd json-format-converter
 
-# Build the project
-just build-new
-# or
-./scripts/build.sh
+# Build all targets (Chrome, Firefox, Standalone)
+npm run build
+
+# Or build specific targets
+npm run build:chrome      # Chrome extension only
+npm run build:firefox     # Firefox extension only
+npm run build:standalone  # Standalone web app only
 
 # Files will be generated in dist/ directory
-# - dist/extension/ (Chrome extension)
+# - dist/chrome/ (Chrome extension)
+# - dist/firefox/ (Firefox extension)
 # - dist/standalone/ (Web app)
 # - *.zip files (Distribution packages)
 ```
@@ -242,13 +246,15 @@ json-format-converter/
 │       ├── icon32.png      # 32x32 icon
 │       ├── icon48.png      # 48x48 icon
 │       └── icon128.png     # 128x128 icon
-├── scripts/                # Build and development scripts
-│   ├── build.sh           # Production build script
-│   └── dev-server.sh      # Development server script
+├── scripts/                # Node-based build and dev scripts
+│   ├── build.js            # Production builder (Chrome/Firefox/Standalone)
+│   ├── dev-server.js       # Lightweight dev server
+│   ├── clean.js            # Clean artifacts
+│   └── update-libs.js      # Update vendored libs (JSON5/CodeMirror)
 ├── dist/                   # Build output directory
-│   ├── extension/          # Chrome extension build
+│   ├── chrome/             # Chrome extension build
+│   ├── firefox/            # Firefox extension build
 │   └── standalone/         # Standalone web app build
-├── justfile               # Just command runner configuration
 ├── package.json           # Project metadata
 ├── .gitignore            # Git ignore rules
 └── README.md             # This file
@@ -257,10 +263,9 @@ json-format-converter/
 ## Development
 
 ### Prerequisites
+- Node.js 18+ and npm
 - Modern web browser
-- Python 3 (for development server)
-- [Just](https://github.com/casey/just) command runner (optional but recommended)
-- ImageMagick (for icon generation)
+- ImageMagick (only if you want to rebuild icons)
 
 ### 🚀 **Quick Start**
 ```bash
@@ -269,46 +274,43 @@ git clone https://github.com/idev-sig/json-format-converter.git
 cd json-format-converter
 
 # Start development server
-just dev
-# or
-./scripts/dev-server.sh
+npm run dev
 
-# Build for production
-just build-new
-# or
-./scripts/build.sh
+# Build for production (Chrome + Firefox + Standalone)
+npm run build
 
-# Run tests
-just test-comments
-# or
-just check-all
+# Build a specific target
+npm run build:chrome
+npm run build:firefox
+npm run build:standalone
+
+# Update vendored libraries (JSON5/CodeMirror)
+npm run update:libs
+
+# Clean artifacts
+npm run clean
 ```
 
 ### 🔧 **Development Workflow**
 1. **Edit Source**: Modify files in the `src/` directory
-2. **Live Development**: Use `just dev` to start the development server
-3. **Test Changes**: Access the app at `http://localhost:8080/standalone.html`
-4. **Extension Testing**: Build first, then load in `chrome://extensions/`
-5. **Validate**: Run `just check-all` before committing
+2. **Live Development**: `npm run dev` then open `http://localhost:8080/standalone.html`
+3. **Extension Testing**: Build first, then load in `chrome://extensions/` or `about:debugging`
+4. **Package**: Zip files are produced automatically in project root
 
 ### 📋 **Available Commands**
 ```bash
 # Development
-just dev [port]          # Start development server (default: 8080)
-just serve               # Quick development server on port 8080
+npm run dev               # Start development server (default: 8080)
 
 # Building
-just build-new           # Build production packages
-just clean               # Clean build files and temporary directories
+npm run build             # Build all targets
+npm run build:chrome
+npm run build:firefox
+npm run build:standalone
 
-# Testing
-just test                # Start test server on port 8081
-just test-comments       # Run comment preservation tests
-just check-all           # Run complete project validation (59 checks)
-just check-structure     # Check project file structure
-
-# Validation
-just validate            # Run extension validation (if web-ext available)
+# Utilities
+npm run update:libs       # Update JSON5/CodeMirror from jsDelivr
+npm run clean             # Remove dist and archives
 ```
 
 ### 🎨 **Building Icons**
@@ -331,24 +333,44 @@ convert icon.svg -resize 128x128 icon128.png
 - **CSS3**: Modern styling with flexbox and grid layouts
 
 ### Build System
-- **Just**: Modern command runner for development tasks
-- **Bash Scripts**: Cross-platform build and development scripts
-- **Python HTTP Server**: Built-in development server
+- **Node.js**: Cross-platform build system (Windows, Linux, macOS)
+- **NPM Scripts**: Standard package management and build commands
 
 ### Browser APIs
-- **Chrome Extension API**: Manifest V3 for modern Chrome extensions
+- **Chrome/Firefox Extension APIs**
 - **Web APIs**: Clipboard, File Download, LocalStorage
 - **ES6+ Features**: Modern JavaScript with broad browser support
 
+## 📦 Third-party Libraries & CDN
+
+- **JSON5** — Parser used for JSON5/JSONC compatibility.
+  - Repo: https://github.com/json5/json5
+  - File: `src/lib/json5.min.js`
+  - Source CDN: https://cdn.jsdelivr.net/npm/json5@<version>/dist/index.min.js
+- **CodeMirror 5** — Editor used for syntax highlighting.
+  - Site: https://codemirror.net/
+  - Files: `src/lib/codemirror.min.js`, `src/lib/codemirror.min.css`, `src/lib/javascript.min.js`
+  - Source CDN: https://cdn.jsdelivr.net/npm/codemirror@<version>/(lib|mode/javascript)/...
+
+Update these assets using:
+
+```bash
+npm run update:libs
+# or specify versions
+node scripts/update-libs.js --json5 2.2.3 --cm 5.65.16
+```
+
+All third‑party files are vendored under `src/lib/` for offline/packaged usage.
+
 ## 🌐 **Browser Compatibility**
 
-- **Chrome Extension**: Chrome 88+ (Manifest V3 compatible)
-- **Standalone Web App**: All modern browsers supporting ES6+
-  - Chrome 60+ ✅
-  - Firefox 55+ ✅
-  - Safari 12+ ✅
-  - Edge 79+ ✅
-  - Opera 47+ ✅
+- **Chrome Extension**: Chrome 88+ (Manifest V3)
+- **Standalone Web App**: ES6+ modern browsers
+  - Chrome 88+ ✅
+  - Firefox 128+ ✅
+  - Safari 14+ ✅
+  - Edge 88+ ✅
+  - Opera 74+ ✅
 
 ## 🤝 **Contributing**
 
@@ -358,7 +380,7 @@ We welcome contributions! Please follow these steps:
 2. **Clone** your fork locally
 3. **Create** a feature branch: `git checkout -b feature/amazing-feature`
 4. **Make** your changes and test thoroughly
-5. **Run** validation: `just check-all`
+5. **Run** validation: `node scripts/validate.js`
 6. **Commit** your changes: `git commit -m 'Add amazing feature'`
 7. **Push** to your branch: `git push origin feature/amazing-feature`
 8. **Submit** a pull request
@@ -380,7 +402,6 @@ See [LICENSE](LICENSE) file for details.
 
 - [CodeMirror](https://codemirror.net/) - Excellent code editor component
 - [JSON5](https://json5.org/) - JSON for humans specification and parser
-- [Just](https://github.com/casey/just) - Handy command runner
 
 ## 📞 **Support**
 
@@ -390,4 +411,4 @@ See [LICENSE](LICENSE) file for details.
 
 ---
 
-**© 2025 JSON Format Converter. Built with ❤️ for developers.**
+**© 2025 JSON Format Converter.**

@@ -135,7 +135,7 @@ status:
 # 运行开发服务器
 dev port="8080":
     @echo "🌐 启动开发服务器 (端口: {{port}})..."
-    @./scripts/dev-server.sh {{port}}
+    @node scripts/dev-server.js {{port}}
 
 # 快速开发服务器
 serve:
@@ -144,12 +144,27 @@ serve:
 # 使用新构建脚本构建
 build-new:
     @echo "🚀 使用新构建脚本构建..."
-    @./scripts/build.sh
+    @node scripts/build.js
+
+# 仅构建Firefox扩展
+build-firefox:
+    @echo "🦊 构建Firefox扩展..."
+    @node scripts/build.js firefox
+
+# 仅构建Chrome扩展
+build-chrome:
+    @echo "🌐 构建Chrome扩展..."
+    @node scripts/build.js chrome
+
+# 仅构建独立版本
+build-standalone:
+    @echo "🌐 构建独立版本..."
+    @node scripts/build.js standalone
 
 # 测试功能
 test:
     @echo "🧪 启动测试服务器..."
-    @./scripts/dev-server.sh 8081
+    @npx http-server -p 8081 ./dist/extension
 
 # 检查项目结构
 check-structure:
@@ -163,7 +178,7 @@ check-structure:
 # 验证项目完整性
 check-all:
     @echo "🔍 验证项目完整性..."
-    @./scripts/validate.sh
+    @node scripts/validate.js
     @echo ""
     @echo "🌍 验证i18n..."
     @node scripts/test-i18n.js

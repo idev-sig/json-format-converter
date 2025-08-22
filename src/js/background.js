@@ -3,22 +3,28 @@
  * Handles extension icon clicks to open the converter in a new tab
  */
 
+// Use browser API for Firefox compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
+// Use action API for Manifest V3 or browserAction for Manifest V2
+const action = browserAPI === chrome ? chrome.action : browserAPI.browserAction;
+
 // Listen for extension icon clicks
-chrome.action.onClicked.addListener((tab) => {
+action.onClicked.addListener(() => {
     // Open popup.html in a new tab
-    chrome.tabs.create({
-        url: chrome.runtime.getURL('popup.html')
+    browserAPI.tabs.create({
+        url: browserAPI.runtime.getURL('html/popup.html')
     });
 });
 
 // Optional: Handle installation
-chrome.runtime.onInstalled.addListener((details) => {
+browserAPI.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
         console.log('JSON Format Converter extension installed');
         
         // Optionally open the converter on first install
-        chrome.tabs.create({
-            url: chrome.runtime.getURL('popup.html')
+        browserAPI.tabs.create({
+            url: browserAPI.runtime.getURL('html/popup.html')
         });
     }
 });

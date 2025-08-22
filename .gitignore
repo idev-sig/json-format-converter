@@ -84,3 +84,10 @@ dev-server/
 
 # CRX
 *.crx
+
+# XPI
+*.xpi
+
+# 
+*.pem
+json-format-converter-*
