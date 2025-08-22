@@ -86,19 +86,22 @@ function replaceInFile(filePath, replacements) {
 }
 
 function createZip(sourceDir, outputPath) {
-    try {
-        // Try using built-in zip command (available on most systems)
-        if (process.platform === 'win32') {
-            // Use PowerShell on Windows
-            execSync(`powershell -Command "Compress-Archive -Path '${sourceDir}/*' -DestinationPath '${outputPath}' -Force"`, { stdio: 'inherit' });
-        } else {
-            // Use zip command on Unix-like systems
-            execSync(`cd "${sourceDir}" && zip -r "../${path.basename(outputPath)}" . -x "*.DS_Store"`, { stdio: 'inherit' });
-        }
-    } catch (error) {
-        log(`Warning: Could not create zip file ${outputPath}. Please install zip utility.`, colors.yellow);
-        log(`You can manually zip the contents of ${sourceDir}`, colors.yellow);
+  try {
+    // Try using built-in zip command (available on most systems)
+    if (process.platform === 'win32') {
+      // Use PowerShell on Windows
+      execSync(`powershell -Command "Compress-Archive -Path '${sourceDir}/*' -DestinationPath '${outputPath}' -Force"`, { stdio: 'inherit' });
+    } else {
+      // Use zip command on Unix-like systems
+      // Always write ZIP to repository root to match CI checks and Windows behavior
+      execSync(`zip -r "${outputPath}" "${sourceDir}" -x "*.DS_Store"`, { stdio: 'inherit' });
     }
+  } catch (error) {
+    log(`Warning: Could not create zip file ${outputPath}. Please install zip utility.`, colors.yellow);
+    log(`You can manually zip the contents of ${sourceDir}`, colors.yellow);
+    // Rethrow to fail the build so CI can catch the real issue
+    throw new Error(`Failed to create ZIP: ${outputPath}. Root cause: ${error.message}`);
+  }
 }
 
 function cleanBuild() {
@@ -287,14 +290,23 @@ function createPackages(target) {
 
     if (target === 'all' || target === 'chrome') {
         createZip(path.join(BUILD_DIR, 'chrome'), `${EXTENSION_NAME}.zip`);
+        if (!fs.existsSync(`${EXTENSION_NAME}.zip`)) {
+            throw new Error(`Expected ZIP not found: ${EXTENSION_NAME}.zip`);
+        }
     }
 
     if (target === 'all' || target === 'firefox') {
         createZip(path.join(BUILD_DIR, 'firefox'), `${FIREFOX_EXTENSION_NAME}.zip`);
+        if (!fs.existsSync(`${FIREFOX_EXTENSION_NAME}.zip`)) {
+            throw new Error(`Expected ZIP not found: ${FIREFOX_EXTENSION_NAME}.zip`);
+        }
     }
 
     if (target === 'all' || target === 'standalone') {
         createZip(path.join(BUILD_DIR, 'standalone'), `${STANDALONE_NAME}.zip`);
+        if (!fs.existsSync(`${STANDALONE_NAME}.zip`)) {
+            throw new Error(`Expected ZIP not found: ${STANDALONE_NAME}.zip`);
+        }
     }
 
     log('✅ Distribution packages created', colors.green);

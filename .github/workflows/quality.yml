@@ -9,16 +9,16 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        
+        node-version: '22'
+
     - name: Install dependencies
       run: |
         npm ci
@@ -26,29 +26,29 @@ jobs:
     - name: Validate project (structure, files, outputs)
       run: |
         node scripts/validate.js
-        
+
     - name: Validate file syntax
       run: |
         # Check JSON files
         find . -name "*.json" -not -path "./node_modules/*" -not -path "./dist/*" | xargs -I {} sh -c 'echo "Checking {}" && python -m json.tool {} > /dev/null'
-        
+
         # Check JavaScript files for basic syntax
         find src/js -name "*.js" | xargs -I {} sh -c 'echo "Checking {}" && node -c {}'
-        
+
     # Additional checks can be added here (lint/tests) when available
-        
+
     - name: Check documentation
       run: |
         # Verify README files exist and are not empty
         test -s README.md || (echo "README.md is missing or empty" && exit 1)
         test -s README_zh.md || (echo "README_zh.md is missing or empty" && exit 1)
-        
+
         # Check for broken internal links in README
         grep -o '\[.*\](.*\.md)' README.md | grep -v 'http' | while read link; do
           file=$(echo "$link" | sed 's/.*](\(.*\))/\1/')
           test -f "$file" || (echo "Broken link: $file" && exit 1)
         done
-        
+
     - name: Verify build artifacts
       run: |
         npm run build
@@ -65,23 +65,23 @@ jobs:
         unzip -t json-format-converter-chrome.zip > /dev/null || (echo "Chrome ZIP is corrupted" && exit 1)
         unzip -t json-format-converter-firefox.zip > /dev/null || (echo "Firefox ZIP is corrupted" && exit 1)
         unzip -t json-format-converter-standalone.zip > /dev/null || (echo "Standalone ZIP is corrupted" && exit 1)
-        
+
     - name: Check package sizes
       run: |
         echo "📊 Package Sizes:"
         echo "Chrome: $(du -h json-format-converter-chrome.zip | cut -f1)"
         echo "Firefox: $(du -h json-format-converter-firefox.zip | cut -f1)"
         echo "Standalone: $(du -h json-format-converter-standalone.zip | cut -f1)"
-        
+
         # Warn if packages are too large (>500KB)
         chrome_size=$(stat -c%s json-format-converter-chrome.zip)
         firefox_size=$(stat -c%s json-format-converter-firefox.zip)
         standalone_size=$(stat -c%s json-format-converter-standalone.zip)
-        
+
         if [ $chrome_size -gt 512000 ]; then
           echo "⚠️ Warning: Chrome package is larger than 500KB ($chrome_size bytes)"
         fi
-        
+
         if [ $firefox_size -gt 512000 ]; then
           echo "⚠️ Warning: Firefox package is larger than 500KB ($firefox_size bytes)"
         fi

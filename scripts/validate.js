@@ -135,15 +135,8 @@ async function validateBuildSystem() {
   
   // Check if scripts are executable (not applicable in Windows)
   if (process.platform !== 'win32') {
-    await check('build script is executable', async () => {
-      const stat = await fs.stat(path.join(scriptsDir, 'build.js'));
-      return (stat.mode & 0o111) !== 0;
-    });
-    
-    await check('dev server script is executable', async () => {
-      const stat = await fs.stat(path.join(scriptsDir, 'dev-server.js'));
-      return (stat.mode & 0o111) !== 0;
-    });
+    // Executable bit is optional because scripts are invoked via `node <script>.js` in CI
+    log.info('Skipping executable bit checks for scripts on non-Windows (invoked via node).');
   }
   
   // Check configuration files
